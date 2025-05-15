@@ -21,25 +21,26 @@ profiles.forEach(profile => {
 
         // 이미 투표한 대상이면 취소
         if (votedTargetUserId === targetUserId) {
-            voteIcon.classList.add('hidden');
-            voteIcon.classList.remove('flex');
-            votedTargetUserId = null;
+            voteIcon.classList.add('hidden'); //투표 아이콘 다시 숨기기
+            voteIcon.classList.remove('flex'); //보인 상태 해제
+            votedTargetUserId = null; //아무한테도 투표 안 한 상태로 복귀
             return;
         }
 
         // 다른 유저를 이미 투표한 경우 -> 이전 투표 아이콘 제거 (재투표 가능)
         if (votedTargetUserId !== null) {
-            const prevProfile = document.querySelector<HTMLElement>(
-                `.profile[data-user="${votedTargetUserId}"]`,
+            //투표 했는지 확인
+            const prevProfile = document.querySelector<HTMLElement>( //이전에 투표한 프로필 다시 찾음
+                `.profile[data-user="${votedTargetUserId}"]`, //투표 아이콘 다시 가져옴
             );
             const prevIcon =
                 prevProfile?.querySelector<HTMLElement>('.vote-icon');
-            prevIcon?.classList.add('hidden');
+            prevIcon?.classList.add('hidden'); //기존 투표 아이콘 제거
             prevIcon?.classList.remove('flex');
         }
 
         // 새로 클린한 유저에 투표 아이콘 표시
-        voteIcon.classList.remove('hidden');
+        voteIcon.classList.remove('hidden'); //현재 클릭한 유저에게 투표 표시
         voteIcon.classList.add('flex');
         votedTargetUserId = targetUserId;
     });

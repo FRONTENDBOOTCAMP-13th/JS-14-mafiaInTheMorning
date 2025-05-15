@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko-KR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>방 목록</title>
+        <script type="module" src="../js/room/roomList.ts"></script>
+        <script type="module" src="../js/room/createRoom.ts"></script>
+        <script type="module" src="../js/room/enterRoom.ts"></script>
+    </head>
+    <body>
+        <img src="/src/assets/search.png" alt="검색" />
+        <!-- 방 만들기 버튼 -->
+        <button
+            id="create-room-btn"
+            class="bg-[#6B6057] text-white border-0 rounded-md p-4"
+        >
+            방 만들기
+        </button>
+        <!-- 방 만들기 모달창 -->
+        <div
+            id="modal"
+            class="modal hidden bg-[#d1d1d1] p-6 w-xs mx-auto my-12"
+        >
+            <form action="">
+                <div
+                    class="input-contents grid grid-rows-2 grid-cols-2 gap-2 m-2"
+                >
+                    <label for="room-name">방 제목</label>
+                    <input
+                        type="text"
+                        class="border-1 rounded-md"
+                        id="room-name"
+                        required
+                    />
+                    <label for="persons">인원</label>
+                    <input
+                        type="number"
+                        max="8"
+                        min="4"
+                        value="4"
+                        class="border-1 rounded-md w-10"
+                        id="persons"
+                    />
+                </div>
+                <div>
+                    <p class="alert text-xs text-red-400 hidden">
+                        방 제목은 필수입니다.
+                    </p>
+                </div>
+
+                <div class="btns flex justify-evenly">
+                    <button
+                        id="create-btn"
+                        class="border-0 bg-[#6B5757] text-white w-16"
+                    >
+                        생성
+                    </button>
+                    <button
+                        id="cancel-btn"
+                        class="border-0 bg-[#6B5757] text-white w-16"
+                    >
+                        취소
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- 방 목록 -->
+        <div>
+            <ul id="room-list"></ul>
+        </div>
+    </body>
+</html>

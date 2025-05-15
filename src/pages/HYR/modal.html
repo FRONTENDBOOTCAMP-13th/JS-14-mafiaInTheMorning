@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/style.css" />
+        <title>modal</title>
+    </head>
+    <body>
+        <!-- 모달창(찬반투표) -->
+        <div
+            id="voteModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+        >
+            <div class="bg-gray-300 rounded-xs p-6 shadow-lg w-70 text-center">
+                <h2 class="text-lg font-semibold mb-4">찬반 투표</h2>
+                <div class="flex justify-between mt-4">
+                    <button
+                        id="yesButton"
+                        class="bg-red-800 hover:bg-red-700 text-white px-5 py-1 rounded-xs ml-9"
+                    >
+                        찬성
+                    </button>
+                    <button
+                        id="noButton"
+                        class="bg-red-800 hover:bg-red-700 text-white px-5 py-1 rounded-xs mr-9"
+                    >
+                        반대
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="../../main.ts"></script>
+    </body>
+</html>

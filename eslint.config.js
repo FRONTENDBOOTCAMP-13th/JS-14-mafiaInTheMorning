@@ -27,6 +27,7 @@ export default defineConfig([
             indent: 'error', // 들여쓰기 검사(기본 4칸)
             'no-unused-vars': 'off',
             '@typescript-eslint/no-unused-vars': 'warn',
+            'no-explicit-any': 'warn', // any 타입 경고
         },
     },
     {

@@ -56,7 +56,6 @@ socket.on('connect', () => {
         for (const key in rooms) {
             const li = document.createElement('li');
             const btn = document.createElement('button');
-            btn.id = 'enter-btn';
             btn.textContent = '입장';
             li.textContent = rooms[key].roomName;
             li.appendChild(btn);

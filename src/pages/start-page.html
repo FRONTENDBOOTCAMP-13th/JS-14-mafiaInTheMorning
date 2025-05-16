@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko-KR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>메인 시작 화면</title>
+        <script type="module" src="/src/style.css"></script>
+        <script type="module" src="/src/js/start-button-modal.ts"></script>
+    </head>
+    <body
+        class="bg-cover bg-center h-screen"
+        style="background-image: url('/src/assets/main.jpg')"
+    >
+        <!-- Start 버튼 -->
+        <button
+            id="main-startButton"
+            class="fixed bottom-15 right-15 bg-[#920613] hover:bg-red-950 text-white text-2xl font-semibold py-2.5 px-9 rounded-2xl shadow-md transition"
+        >
+            Start
+        </button>
+
+        <!-- 모달 -->
+        <div
+            id="nicknameModal"
+            class="hidden fixed inset-0 flex items-center justify-center z-50"
+        >
+            <div
+                class="bg-black opacity-85 rounded-xl p-8 shadow-xl w-110 h-60 border-2 border-gray-300 flex flex-col justify-center gap-2"
+            >
+                <h2
+                    class="flex justify-center text-xl font-semibold mb-4 text-stone-200"
+                >
+                    닉네임 입력
+                </h2>
+                <input
+                    type="text"
+                    id="nicknameInput"
+                    placeholder="닉네임을 입력하세요"
+                    class="w-90 mx-auto border-3 placeholder-gray-700 border-gray-600 rounded-md px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style="background-color: #c2c2c2"
+                />
+                <div class="flex justify-center">
+                    <button
+                        id="confirmBtn"
+                        class="px-7 py-2 border-2 bg-[#2d3a63] hover:bg-blue-950 text-white rounded-4xl"
+                    >
+                        확인
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

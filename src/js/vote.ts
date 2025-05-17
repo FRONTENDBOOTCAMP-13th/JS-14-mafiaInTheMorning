@@ -33,7 +33,7 @@ profileElements.forEach(profile => {
             return;
         }
 
-        // 다른 유저가 이미 선책되어 있으면 그 유저 아이콘 숨기기(중복 안되도록)
+        // 다른 유저가 이미 선택되어 있으면 그 유저 아이콘 숨기기(중복 안되도록)
         if (selectedUserId) {
             // 이전에 선택한 유저 프로필 아이콘 찾기
             const prevIcon = document.querySelector<HTMLElement>(

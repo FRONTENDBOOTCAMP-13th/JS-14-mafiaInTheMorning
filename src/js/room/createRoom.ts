@@ -1,5 +1,5 @@
-import io from 'socket.io-client';
-const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');
+// import io from 'socket.io-client';
+import { socket } from '../socket';
 
 import '/src/style.css'; // tailwind 사용
 
@@ -8,7 +8,7 @@ const modal = document.querySelector('#modal') as Element;
 const createBtn = document.querySelector('#create-btn');
 const cancelBtn = document.querySelector('#cancel-btn');
 
-const roomName = document.querySelector('#room-name') as any;
+export const roomName = document.querySelector('#room-name') as any;
 // const persons = document.querySelector('#persons') as any;
 const alert = document.querySelector('.alert') as any;
 
@@ -88,14 +88,13 @@ createBtn?.addEventListener('click', async e => {
     e.preventDefault();
 
     if (!roomName.value) {
-        alert.classList.remove('hidden');
+        modal.classList.remove('hidden');
     } else {
-        alert.classList.add('hidden');
+        modal.classList.add('hidden');
         const user_id = 'adminId';
         const hostName = 'host';
-        const roomId = '5';
         const params: CreateRoomParams = {
-            roomId,
+            roomId: roomName.value,
             user_id,
             roomName: roomName.value,
             hostName,

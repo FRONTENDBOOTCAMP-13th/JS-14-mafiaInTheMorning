@@ -1,0 +1,1 @@
+export const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');

@@ -4,12 +4,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>방 목록</title>
+        <script src="https://fesp-api.koyeb.app/socket.io/socket.io.js"></script>
         <script type="module" src="../js/room/roomList.ts"></script>
         <script type="module" src="../js/room/createRoom.ts"></script>
         <script type="module" src="../js/room/enterRoom.ts"></script>
     </head>
     <body>
-        <img src="/src/assets/search.png" alt="검색" />
         <!-- 방 만들기 버튼 -->
         <button
             id="create-room-btn"
@@ -43,11 +43,6 @@
                         id="persons"
                     />
                 </div>
-                <div>
-                    <p class="alert text-xs text-red-400 hidden">
-                        방 제목은 필수입니다.
-                    </p>
-                </div>
 
                 <div class="btns flex justify-evenly">
                     <button
@@ -67,10 +62,9 @@
         </div>
         <!-- 방 목록 -->
         <div>
-            <ul id="room-list">
-                <li>방 예시 <button>입장</button></li>
-            </ul>
+            <input type="text" id="input-room-name" />
+            <button id="enter-btn">입장</button>
+            <ul id="room-list"></ul>
         </div>
-        접속한 채팅방: <span id="connected-room"></span>
     </body>
 </html>

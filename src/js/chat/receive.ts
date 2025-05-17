@@ -1,11 +1,9 @@
-import { socket } from './send.js';
+import { socket } from '../socket';
 
 export interface ChatMessage {
     nickName: string;
     msg: string;
 }
-
-// const talkingArea = document.querySelector('#talking-area');
 
 window.addEventListener('pagehide', () => {
     localStorage.setItem('history', JSON.stringify(chatHistory));
@@ -18,5 +16,4 @@ console.log(chatHistory);
 
 socket.on('message', (data: ChatMessage) => {
     chatHistory.push(data);
-    console.log(data.msg);
 });

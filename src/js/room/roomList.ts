@@ -1,5 +1,5 @@
-import io from 'socket.io-client';
-const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');
+// import io from 'socket.io-client';
+import { socket } from '../socket';
 
 const roomList = document.querySelector('#room-list');
 
@@ -52,17 +52,10 @@ socket.on('connect', () => {
     console.log('서버와 연결됨');
     socket.emit('rooms', (rooms: RoomsResponse) => {
         console.log('전체 채팅방 목록:', rooms);
-        let array: string[] = [];
         for (const key in rooms) {
             const li = document.createElement('li');
-            const btn = document.createElement('button');
-            btn.id = 'enter-btn';
-            btn.textContent = '입장';
             li.textContent = rooms[key].roomName;
-            li.appendChild(btn);
             roomList?.appendChild(li);
         }
-
-        console.log(array);
     });
 });

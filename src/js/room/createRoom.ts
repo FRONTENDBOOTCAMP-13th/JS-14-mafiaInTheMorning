@@ -1,5 +1,5 @@
-import io from 'socket.io-client';
-const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');
+// import io from 'socket.io-client';
+import { socket } from '../socket';
 
 import '/src/style.css'; // tailwind 사용
 
@@ -8,8 +8,8 @@ const modal = document.querySelector('#modal') as Element;
 const createBtn = document.querySelector('#create-btn');
 const cancelBtn = document.querySelector('#cancel-btn');
 
-const roomName = document.querySelector('#room-name') as any;
-const persons = document.querySelector('#persons') as any;
+export const roomName = document.querySelector('#room-name') as any;
+// const persons = document.querySelector('#persons') as any;
 const alert = document.querySelector('.alert') as any;
 
 /**
@@ -42,7 +42,7 @@ interface RoomInfo {
     roomName: string;
     parents_option: any;
     memberList: RoomMembers;
-    persons: number;
+    // persons: number;
 }
 /**
  * 채팅방 생성 요청 파라미터를 정의하는 인터페이스
@@ -52,7 +52,7 @@ interface CreateRoomParams {
     user_id: string;
     roomName: string;
     hostName: string;
-    persons: number;
+    // persons: number;
 }
 
 /**
@@ -71,7 +71,7 @@ function createRoom(params: CreateRoomParams): Promise<CreateRoomResponse> {
     if (!params.roomName.trim()) {
         throw new Error('roomName이 없습니다.');
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         socket.emit('createRoom', params, (res: CreateRoomResponse) => {
             resolve(res);
         });
@@ -88,21 +88,20 @@ createBtn?.addEventListener('click', async e => {
     e.preventDefault();
 
     if (!roomName.value) {
-        alert.classList.remove('hidden');
+        modal.classList.remove('hidden');
     } else {
-        alert.classList.add('hidden');
+        modal.classList.add('hidden');
         const user_id = 'adminId';
         const hostName = 'host';
-        const roomId = '6';
         const params: CreateRoomParams = {
-            roomId,
+            roomId: roomName.value,
             user_id,
             roomName: roomName.value,
             hostName,
-            persons: persons.value,
+            // persons: persons.value,
         };
         const result = await createRoom(params);
-        console.log('생성된 방 정보', result);
+        console.log('생성방 생성 요청 결과', result);
         window.location.reload();
     }
 });

@@ -13,6 +13,7 @@ const nicknameInput = document.getElementById(
 
 mainstartBtn.addEventListener('click', () => {
     nicknameModal.classList.remove('hidden');
+    nicknameModal.classList.add('flex');
 });
 
 nickconfirmBtn.addEventListener('click', () => {

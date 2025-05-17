@@ -1,15 +1,17 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="ko">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="/style.css" />
+        <script type="module" src="../js/vote.ts"></script>
+        <script type="module" src="../main.ts"></script>
         <title>마피아 투표</title>
     </head>
-    <body class="bg-gray-600 flex justify-center items-center min-h-screen">
-        <!-- 유저 프로필 -->
-        <div class="grid grid-cols-2 gap-4">
-            <!-- 프로필 1 -->
+    <body class="bg-gray-600 flex justify-center items-center min-h-screen"> -->
+<!-- 유저 프로필 -->
+<!-- <div class="grid grid-cols-2 gap-4"> -->
+<!-- 프로필 1
             <div
                 class="profile w-40 h-40 bg-gray-700 rounded-xs overflow-hidden relative shadow-md cursor-pointer"
                 data-user="1"
@@ -19,7 +21,7 @@
                     alt="유저1"
                     class="w-full h-full object-cover"
                 />
-                <!-- 투표 아이콘 -->
+                투표 아이콘
                 <div
                     class="vote-icon hidden justify-center items-center absolute inset-0"
                 >
@@ -29,14 +31,14 @@
                         class="w-30 h-30"
                     />
                 </div>
-                <!-- 닉네임 -->
+                닉네임
                 <div
                     class="absolute bottom-0 w-full bg-black bg-opacity-60 text-white text-center text-sm py-1"
                 >
                     닉네임
                 </div>
             </div>
-            <!-- 프로필 2 -->
+            프로필 2
             <div
                 class="profile w-40 h-40 bg-gray-700 rounded-xs overflow-hidden relative shadow-md cursor-pointer"
                 data-user="2"
@@ -46,7 +48,7 @@
                     alt="유저2"
                     class="w-full h-full object-cover"
                 />
-                <!-- 투표 아이콘 -->
+                투표 아이콘
                 <div
                     class="vote-icon hidden justify-center items-center absolute inset-0"
                 >
@@ -56,14 +58,14 @@
                         class="w-30 h-30"
                     />
                 </div>
-                <!-- 닉네임 -->
+                닉네임
                 <div
                     class="absolute bottom-0 w-full bg-black bg-opacity-60 text-white text-center text-sm py-1"
                 >
                     닉네임
                 </div>
             </div>
-            <!-- 프로필 3 -->
+            프로필 3
             <div
                 class="profile w-40 h-40 bg-gray-700 rounded-xs overflow-hidden relative shadow-md cursor-pointer"
                 data-user="3"
@@ -73,7 +75,7 @@
                     alt="유저3"
                     class="w-full h-full object-cover"
                 />
-                <!-- 투표 아이콘 -->
+                투표 아이콘
                 <div
                     class="vote-icon hidden justify-center items-center absolute inset-0"
                 >
@@ -83,14 +85,14 @@
                         class="w-30 h-30"
                     />
                 </div>
-                <!-- 닉네임 -->
+                닉네임
                 <div
                     class="absolute bottom-0 w-full bg-black bg-opacity-60 text-white text-center text-sm py-1"
                 >
                     닉네임
                 </div>
             </div>
-            <!-- 프로필 4 -->
+            프로필 4
             <div
                 class="profile w-40 h-40 bg-gray-700 rounded-xs overflow-hidden relative shadow-md cursor-pointer"
                 data-user="4"
@@ -100,7 +102,7 @@
                     alt="유저4"
                     class="w-full h-full object-cover"
                 />
-                <!-- 투표 아이콘 -->
+                투표 아이콘
                 <div
                     class="vote-icon hidden justify-center items-center absolute inset-0"
                 >
@@ -110,7 +112,7 @@
                         class="w-30 h-30"
                     />
                 </div>
-                <!-- 닉네임 -->
+                닉네임
                 <div
                     class="absolute bottom-0 w-full bg-black bg-opacity-60 text-white text-center text-sm py-1"
                 >
@@ -118,7 +120,198 @@
                 </div>
             </div>
         </div>
+    </body>
+</html> -->
 
-        <script type="module" src="../../main.ts"></script>
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/style.css" />
+        <script type="module" src="../js/vote.ts"></script>
+        <script type="module" src="../main.ts"></script>
+        <title>마피아 투표</title>
+    </head>
+    <body class="flex justify-center items-center min-h-screen">
+        <div class="grid grid-cols-3 gap-4">
+            <!-- user1: 나 -->
+            <div class="profile relative" data-user="user1">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="나"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    나
+                </div>
+            </div>
+
+            <!-- user2 ~ user8 -->
+            <div class="profile relative" data-user="user2">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저1"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저1
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user3">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저2"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저2
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user4">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저3"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저3
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user5">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저4"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저4
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user6">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저5"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저5
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user7">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저6"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저6
+                </div>
+            </div>
+
+            <div class="profile relative" data-user="user8">
+                <img
+                    src="/src/assets/player.svg"
+                    alt="유저7"
+                    class="w-40 h-40 object-cover rounded-xs shadow-md"
+                />
+                <div
+                    class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300"
+                >
+                    <img
+                        src="/src/assets/vote.svg"
+                        alt="투표 아이콘"
+                        class="w-30 h-30"
+                    />
+                </div>
+                <div
+                    class="absolute bottom-0 w-40 bg-black bg-opacity-60 text-white text-center text-sm py-1"
+                >
+                    유저7
+                </div>
+            </div>
+        </div>
     </body>
 </html>

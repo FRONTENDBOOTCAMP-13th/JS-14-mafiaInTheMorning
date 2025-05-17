@@ -5,6 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>채팅방 목록 페이지</title>
         <script type="module" src="/src/style.css"></script>
+        <script src="https://fesp-api.koyeb.app/socket.io/socket.io.js"></script>
+        <script type="module" src="../js/room/roomList.ts"></script>
+        <script type="module" src="../js/room/createRoom.ts"></script>
+        <script type="module" src="../js/room/enterRoom.ts"></script>
     </head>
     <body
         class="relative h-screen bg-cover bg-center bg-no-repeat"
@@ -15,23 +19,77 @@
             class="w-full bg-black bg-opacity-80 text-white py-10 px-6 flex justify-between items-center"
         >
             <button
+                id="create-room-btn"
                 class="bg-[#2A2A2A] ml-4 hover:bg-amber-400 text-[#FFDB5C] font-semibold py-2 px-4 rounded-2xl border-2 border-white"
             >
                 방 만들기
             </button>
-            <button class="mr-4 w-10 h-10">
-                <img
-                    src="/src/assets/search.svg"
-                    alt="방 검색"
-                    class="w-full h-full object-contain"
+            <div>
+                <input
+                    type="text"
+                    id="input-room-name"
+                    class="w-[300px] h-[40px] rounded-2xl bg-[#848485] mr-4"
                 />
-            </button>
+                <button
+                    id="enter-btn"
+                    class="bg-[#2A2A2A] border p-2 w-[70px] rounded-2xl"
+                >
+                    입장
+                </button>
+            </div>
         </header>
+        <!-- 방 만들기 모달창 -->
+        <div
+            id="modal"
+            class="hidden modal rounded-2xl border-4 border-white bg-black p-6 w-[600px] h-[300px] mx-auto my-12 flex items-start justify-center pt-20"
+        >
+            <form
+                class="flex flex-col items-center justify-center gap-4 w-full mt-2"
+            >
+                <div
+                    class="input-contents grid grid-cols-[auto_1fr] gap-x-5 gap-y-4"
+                >
+                    <label for="room-name" class="text-white">방제목</label>
+                    <input
+                        type="text"
+                        class="border rounded-md bg-gray-300 p-1"
+                        id="room-name"
+                        required
+                    />
+                    <label for="persons" class="text-white">최대 인원</label>
+                    <input
+                        type="number"
+                        max="8"
+                        min="4"
+                        value="4"
+                        class="border rounded-md bg-gray-300 p-1 w-16"
+                        id="persons"
+                    />
+                </div>
+
+                <div class="btns flex gap-7 mt-4">
+                    <button
+                        id="create-btn"
+                        class="border-0 bg-[#FFDB5C] text-black w-24 h-10 rounded-2xl"
+                    >
+                        생성
+                    </button>
+                    <button
+                        id="cancel-btn"
+                        class="border-0 bg-[#5D010A] text-white w-24 h-10 rounded-2xl"
+                    >
+                        취소
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <!-- 채팅방 리스트 -->
         <main class="mt-17 px-4">
             <div class="max-w-[1200px] mx-auto space-y-8">
+                <ul id="room-list" class="text-white text-xl font-bold"></ul>
                 <!-- 방 항목 -->
+
                 <div
                     class="bg-black bg-opacity-80 backdrop-blur-md p-6 rounded-xl flex items-center justify-between shadow shadow-[#5D010A] border-4 border-[#5D010A]"
                 >
@@ -44,11 +102,6 @@
                         <span class="text-gray-400 font-semibold text-lg"
                             >7/10</span
                         >
-                        <button
-                            class="bg-[#8D8D8D] hover:bg-[#354056] text-white font-medium py-2 px-6 rounded-2xl"
-                        >
-                            입장
-                        </button>
                     </div>
                 </div>
 
@@ -65,11 +118,6 @@
                         <span class="text-gray-400 font-semibold text-lg"
                             >4/4</span
                         >
-                        <button
-                            class="bg-[#8D8D8D] hover:bg-[#354056] text-white font-medium py-2 px-6 rounded-2xl"
-                        >
-                            입장
-                        </button>
                     </div>
                 </div>
                 <div
@@ -84,11 +132,6 @@
                         <span class="text-gray-400 font-semibold text-lg"
                             >1/6</span
                         >
-                        <button
-                            class="bg-[#8D8D8D] hover:bg-[#354056] text-white font-medium py-2 px-6 rounded-2xl"
-                        >
-                            입장
-                        </button>
                     </div>
                 </div>
             </div>

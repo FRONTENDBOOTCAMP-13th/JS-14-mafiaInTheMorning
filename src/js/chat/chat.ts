@@ -2,6 +2,9 @@ import { socket } from '../socket/socket';
 
 import type { JoinRoomParams } from '../room/enterRoom';
 
+const urlParams = new URLSearchParams(window.location.search);
+const nickname = urlParams.get('user_id') as string;
+
 /**
  * 채팅방 멤버의 정보를 정의하는 인터페이스
  */
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const params: JoinRoomParams = {
             roomId,
             user_id,
-            nickName: 'host',
+            nickName: nickname,
         };
 
         const result = await joinRoom(params);

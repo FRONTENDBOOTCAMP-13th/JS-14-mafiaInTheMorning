@@ -4,12 +4,16 @@ const noButton = document.getElementById('noButton') as HTMLButtonElement;
 
 // 모달 열기
 export function openVoteModal() {
-    modal.style.display = 'flex';
+    // modal.style.display = 'flex';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
 }
 
 // 모달 닫기
 export function closeVoteModal() {
-    modal.style.display = 'none';
+    // modal.style.display = 'none';
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
 }
 
 // 초기에는 모달을 숨김 처리
@@ -30,3 +34,9 @@ noButton.addEventListener('click', () => {
 });
 
 // modal.style.display = 'none'; // 페이지 열리면 모달을 숨김
+
+//나중에 추가
+// import { openVoteModal } from './modal';
+// socket.on('start-vote-confirmation', () => {
+//     openVoteModal();
+// });

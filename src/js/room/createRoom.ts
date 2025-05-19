@@ -97,7 +97,7 @@ createBtn?.addEventListener('click', async e => {
             roomId: roomName.value,
             user_id: nickname,
             roomName: roomName.value,
-            hostName: 'host',
+            hostName: nickname,
             // persons: persons.value,
         };
         const result = await createRoom(params);

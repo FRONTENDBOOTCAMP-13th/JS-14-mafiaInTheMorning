@@ -18,10 +18,11 @@ mainstartBtn.addEventListener('click', () => {
 
 nickconfirmBtn.addEventListener('click', () => {
     const nickname = nicknameInput.value.trim();
+
     if (nickname) {
-        console.log(`닉네임: ${nickname}`);
         nicknameModal.classList.add('hidden');
         nicknameInput.value = '';
+        window.location.href = `/src/pages/server-page.html?nickname=${encodeURIComponent(nickname)}`;
     } else {
         alert('닉네임을 입력해주세요.');
     }

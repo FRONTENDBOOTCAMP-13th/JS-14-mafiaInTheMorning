@@ -1,4 +1,4 @@
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 const leaveBtn = document.querySelector('#leave-btn');
 

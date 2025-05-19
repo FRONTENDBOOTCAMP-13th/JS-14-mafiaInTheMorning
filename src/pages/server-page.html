@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>서버 입장 화면</title>
         <script type="module" src="/src/style.css"></script>
+        <script type="module" src="/src/js/server-page/server-page.ts"></script>
     </head>
     <body
         class="relative h-screen bg-cover bg-center bg-no-repeat"
@@ -28,20 +29,18 @@
 
                 <!-- 버튼 그룹 (정가운데 위치 기준) -->
                 <div class="flex flex-col items-center gap-6">
-                    <a href="chatlist-page.html"
-                        ><button
-                            class="w-[600px] py-4 rounded-xl bg-[#041321] text-white text-xl font-semibold hover:bg-slate-800 transition"
-                        >
-                            초보 채널
-                        </button></a
+                    <button
+                        class="w-[600px] py-4 rounded-xl bg-[#041321] text-white text-xl font-semibold hover:bg-slate-800 transition"
+                        id="ch00"
                     >
-                    <a href="chatlist-page.html">
-                        <button
-                            class="w-[600px] py-4 rounded-xl bg-[#041321] text-white text-xl font-semibold hover:bg-slate-800 transition"
-                        >
-                            마피아 소굴 채널
-                        </button></a
+                        초보 채널
+                    </button>
+                    <button
+                        class="w-[600px] py-4 rounded-xl bg-[#041321] text-white text-xl font-semibold hover:bg-slate-800 transition"
+                        id="ch01"
                     >
+                        채널 1
+                    </button>
                 </div>
             </div>
         </div>

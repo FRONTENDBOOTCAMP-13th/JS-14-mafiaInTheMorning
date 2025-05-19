@@ -1,3 +1,6 @@
+const urlParams = new URLSearchParams(window.location.search);
+const nickname = urlParams.get('nickname') as string;
+
 /**
  * 채팅방 입장 요청 파라미터를 정의하는 인터페이스
  */
@@ -20,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     enterBtn.addEventListener('click', () => {
-        const user_id = 'admin';
+        const user_id = nickname;
         const roomId = inputRoomName.value.trim();
 
         if (!roomId) {

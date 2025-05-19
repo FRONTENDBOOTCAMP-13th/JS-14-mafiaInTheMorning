@@ -9,13 +9,24 @@
         <script type="module" src="../js/chat/send.ts"></script>
         <script type="module" src="../js/chat/receive.ts"></script>
         <script type="module" src="../js/chat/leave.ts"></script>
+        <link rel="stylesheet" href="../style.css" />
+        <script type="module" src="../js/vote.ts"></script>
+        <script type="module" src="../js/modal.ts"></script>
+        <script type="module" src="../main.ts"></script>
     </head>
-    <body>
-        <h2 id="room-title">채팅방 로딩 중...</h2>
-        <div id="talking-area"></div>
-        <input type="text" id="msg-input" />
-        <button id="send-btn">전송</button>
-        <button id="leave-btn">게임 나가기</button>
-        <div id="chat-area" class="flex flex-col-reverse"></div>
+    <body class="flex w-full h-screen">
+        <!-- 채팅창 -->
+        <div class="w-2/5">
+            <h2 id="room-title">채팅방 로딩 중...</h2>
+            <div id="talking-area"></div>
+            <input type="text" id="msg-input" />
+            <button id="send-btn">전송</button>
+            <button id="leave-btn">게임 나가기</button>
+            <div id="chat-area" class="flex flex-col overflow-y-auto"></div>
+        </div>
+        <!-- 투표창 -->
+        <div class="w-3/5 grid grid-cols-1">
+            <h1>투표창</h1>
+        </div>
     </body>
 </html>

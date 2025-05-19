@@ -50,3 +50,64 @@ profileElements.forEach(profile => {
         // console.log('투표 대상:', selectedUserId);
     });
 });
+
+// import { socket } from './socket/socket';
+// import type { JoinRoomParams } from './room/enterRoom';
+
+// // URL 파라미터에서 정보 추출
+// const urlParams = new URLSearchParams(window.location.search);
+// const roomId = urlParams.get('roomId') as string;
+// const user_id = urlParams.get('user_id') as string;
+// const nickname = user_id;
+
+// // 유저 프로필 이미지 매핑(예시)
+// const userImg = (_userId: string) => '/src/assets/player.svg';
+
+// // 서버에서 유저 목록 받아와서 vote-list에 렌더링
+// function renderVoteList(memberList: {
+//     [key: string]: { user_id: string; nickName: string };
+// }) {
+//     const voteList = document.getElementById('vote-list');
+//     if (!voteList) return;
+//     voteList.innerHTML = '';
+//     Object.values(memberList).forEach(member => {
+//         const profile = document.createElement('div');
+//         profile.className = 'profile relative grid place-items-center';
+//         profile.dataset.user = member.user_id;
+//         profile.innerHTML = `
+//       <img src="${userImg(member.user_id)}" alt="${member.nickName}" class="w-40 h-40 object-cover rounded-xs shadow-md" />
+//       <div class="vote-icon invisible opacity-0 absolute inset-0 justify-center items-center transition-opacity duration-300">
+//         <img src="/src/assets/vote.svg" alt="투표 아이콘" class="w-30 h-30" />
+//       </div>
+//       <div class="absolute bottom-0 w-33 bg-black bg-opacity-60 rounded-2xl text-white text-center text-sm py-1 mb-2">
+//         ${member.user_id === user_id ? '나' : member.nickName}
+//       </div>
+//     `;
+//         voteList.appendChild(profile);
+//     });
+// }
+
+// // 방 입장 및 유저 목록 받아오기
+// function joinRoom(params: JoinRoomParams): Promise<any> {
+//     return new Promise(resolve => {
+//         socket.emit('joinRoom', params, (res: any) => {
+//             resolve(res);
+//         });
+//     });
+// }
+
+// document.addEventListener('DOMContentLoaded', async () => {
+//     if (!roomId || !user_id) {
+//         alert('방 정보가 없습니다.');
+//         return;
+//     }
+//     const params: JoinRoomParams = {
+//         roomId,
+//         user_id,
+//         nickName: nickname,
+//     };
+//     const result = await joinRoom(params);
+//     if (result && result.roomInfo && result.roomInfo.memberList) {
+//         renderVoteList(result.roomInfo.memberList);
+//     }
+// });

@@ -1,86 +1,62 @@
-import { socket } from '../socket/socket';
-
-import type { JoinRoomParams } from '../room/enterRoom';
+import {
+    joinRoom,
+    leaveRoom,
+    socket,
+    type ChatMessage,
+    type JoinRoomParams,
+} from '../lib/yongchat';
+import { getMyRole, startGame } from './start';
 
 const urlParams = new URLSearchParams(window.location.search);
-const nickname = urlParams.get('user_id') as string;
+const roomId = urlParams.get('roomId');
+const user_id = urlParams.get('user_id') as string;
+const roomTitle = document.querySelector('#room-title') as HTMLElement;
 
-/**
- * 채팅방 멤버의 정보를 정의하는 인터페이스
- */
-interface RoomMember {
-    user_id: string;
-    nickName: string;
-}
+if (roomId && roomTitle) {
+    roomTitle.textContent = `채팅방: ${roomId}`;
 
-/**
- * 채팅방의 멤버 목록을 정의하는 인터페이스
- * @description 채팅방의 모든 멤버 정보를 담고 있는 객체 타입입니다.
- * 키는 user_id를, 값은 RoomMember 타입의 멤버 정보를 가집니다.
- */
-interface RoomMembers {
-    // [key: string]: 타입 스크립트의 타입 정의 방법중 하나인 index signature
-    // 속성명을 명시하지 않고 속성명의 타입과 속성값의 타입을 정의
-    // 인터페이스에 정의할 여러 속성들이 동일한 타입을 가지고 있을 때 모든 속성을 기술하지 않고 인덱스 시그니처 하나로 정의 가능
-    // "key"라는 문자 대신 아무 문자나 사용 가능
-    // 속성명의 타입은 string, number, symbol만 사용 가능
-    [key: string]: RoomMember;
-}
+    const params: JoinRoomParams = {
+        roomId,
+        user_id,
+        nickName: user_id,
+    };
 
-/**
- * 채팅방의 전체 정보를 정의하는 인터페이스
- */
-interface RoomInfo {
-    roomId: string;
-    user_id: string;
-    hostName: string;
-    roomName: string;
-    parents_option: any;
-    memberList: RoomMembers;
-}
+    const result = await joinRoom(params);
+    console.log('채팅방 참여함:', result);
 
-/**
- * 채팅방 입장 응답을 정의하는 인터페이스
- */
-interface JoinRoomResponse {
-    ok: number;
-    message: string;
-    roomInfo: RoomInfo;
-}
-
-function joinRoom(params: JoinRoomParams): Promise<JoinRoomResponse> {
-    if (!params.roomId.trim()) {
-        throw new Error('roomId가 없습니다.');
-    }
-    if (!params.user_id.trim()) {
-        throw new Error('user_id가 없습니다.');
-    }
-
-    return new Promise(resolve => {
-        socket.emit('joinRoom', params, (res: JoinRoomResponse) => {
-            resolve(res);
-        });
+    // 게임 시작
+    document.querySelector('#start-game')?.addEventListener('click', () => {
+        // startGame();
+        startGame(result.roomInfo.memberList);
     });
+} else {
+    alert('방 정보가 없습니다.');
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const roomId = urlParams.get('roomId');
-    const user_id = urlParams.get('user_id') as string;
-    const roomTitle = document.querySelector('#room-title') as HTMLElement;
+// 나가기 버튼 클릭
+const leaveBtn = document.querySelector('#leave-btn');
+// 게임 나가기
+leaveBtn?.addEventListener('click', () => {
+    leaveRoom();
+    window.location.href = `/src/pages/room.html?nickname=${encodeURIComponent(user_id)}`;
+});
 
-    if (roomId && roomTitle) {
-        roomTitle.textContent = `채팅방: ${roomId}`;
+const roleDiv = document.querySelector('#my-role')!;
 
-        const params: JoinRoomParams = {
-            roomId,
-            user_id,
-            nickName: nickname,
-        };
+socket.on('message', (data: ChatMessage) => {
+    console.log(data.msg);
+    switch (data.msg.action) {
+        case 'start':
+            const myRole = getMyRole(data.msg.roles, user_id);
+            if (myRole) {
+                roleDiv.innerHTML = myRole;
+            }
 
-        const result = await joinRoom(params);
-        console.log('채팅방 참여:', result);
-    } else {
-        alert('방 정보가 없습니다.');
+            break;
+        case 'chat':
+        case 'vote':
+        case 'liveordie':
+
+        case 'kill':
     }
 });

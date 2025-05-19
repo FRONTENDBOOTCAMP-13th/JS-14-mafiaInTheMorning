@@ -5,7 +5,7 @@ const ch00 = document.querySelector('#ch00');
 const ch01 = document.querySelector('#ch01');
 
 ch00?.addEventListener('click', () => {
-    window.location.href = `/src/pages/room.html?nickname=${encodeURIComponent(nickname)}`;
+    window.location.href = `/src/pages/chatlist-page.html?nickname=${encodeURIComponent(nickname)}`;
 });
 
 ch01?.addEventListener('click', () => {

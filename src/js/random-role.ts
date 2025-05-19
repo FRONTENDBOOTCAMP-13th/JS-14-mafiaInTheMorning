@@ -4,7 +4,7 @@ type Role = '마피아' | '경찰' | '의사' | '시민';
 //참가자 수에 따라 역할을 생성하여 랜덤하게 섞은 배열을 반환,
 //@param playerCount 참가자 수 (4 이상)*/,
 
-function assignRoles(playerCount: number): Role[] {
+export function assignRoles(playerCount: number): Role[] {
     if (playerCount < 4) {
         throw new Error('참가자는 최소 4명 이상이어야 합니다.');
     }

@@ -1,5 +1,5 @@
 // import io from 'socket.io-client';
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 import '/src/style.css'; // tailwind 사용
 
@@ -8,9 +8,11 @@ const modal = document.querySelector('#modal') as Element;
 const createBtn = document.querySelector('#create-btn');
 const cancelBtn = document.querySelector('#cancel-btn');
 
+const urlParams = new URLSearchParams(window.location.search);
+const nickname = urlParams.get('nickname') as string;
+
 export const roomName = document.querySelector('#room-name') as any;
 // const persons = document.querySelector('#persons') as any;
-const alert = document.querySelector('.alert') as any;
 
 /**
  * 채팅방 멤버의 정보를 정의하는 인터페이스
@@ -91,13 +93,11 @@ createBtn?.addEventListener('click', async e => {
         modal.classList.remove('hidden');
     } else {
         modal.classList.add('hidden');
-        const user_id = 'adminId';
-        const hostName = 'host';
         const params: CreateRoomParams = {
             roomId: roomName.value,
-            user_id,
+            user_id: nickname,
             roomName: roomName.value,
-            hostName,
+            hostName: 'host',
             // persons: persons.value,
         };
         const result = await createRoom(params);

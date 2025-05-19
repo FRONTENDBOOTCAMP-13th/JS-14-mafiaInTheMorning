@@ -1,4 +1,4 @@
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 let msgInput = document.querySelector('#msg-input') as any;
 const sendBtn = document.querySelector('#send-btn');

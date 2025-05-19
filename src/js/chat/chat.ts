@@ -1,4 +1,4 @@
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 import type { JoinRoomParams } from '../room/enterRoom';
 

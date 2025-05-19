@@ -1,5 +1,5 @@
 // import io from 'socket.io-client';
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 const roomList = document.querySelector('#room-list');
 

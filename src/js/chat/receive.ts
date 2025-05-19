@@ -1,4 +1,4 @@
-import { socket } from '../socket';
+import { socket } from '../socket/socket';
 
 export interface ChatMessage {
     nickName: string;

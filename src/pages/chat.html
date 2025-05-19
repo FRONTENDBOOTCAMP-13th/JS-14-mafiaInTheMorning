@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko-KR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>메인 게임 페이지</title>
+        <script src="https://fesp-api.koyeb.app/socket.io/socket.io.js"></script>
+        <script type="module" src="../js/chat/chat.ts"></script>
+        <script type="module" src="../js/chat/send.ts"></script>
+        <script type="module" src="../js/chat/receive.ts"></script>
+        <script type="module" src="../js/chat/leave.ts"></script>
+    </head>
+    <body>
+        <h2 id="room-title">채팅방 로딩 중...</h2>
+        <div id="talking-area"></div>
+        <input type="text" id="msg-input" />
+        <button id="send-btn">전송</button>
+        <button id="leave-btn">게임 나가기</button>
+        <div id="chat-area" class="flex flex-col-reverse"></div>
+    </body>
+</html>

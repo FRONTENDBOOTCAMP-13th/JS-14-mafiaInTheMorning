@@ -22,6 +22,7 @@ nickconfirmBtn.addEventListener('click', () => {
     if (nickname) {
         nicknameModal.classList.add('hidden');
         nicknameInput.value = '';
+        console.log(nickname);
         window.location.href = `/src/pages/server-page.html?nickname=${encodeURIComponent(nickname)}`;
     } else {
         alert('닉네임을 입력해주세요.');

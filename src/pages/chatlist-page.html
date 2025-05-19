@@ -28,7 +28,8 @@
                 <input
                     type="text"
                     id="input-room-name"
-                    class="w-[280px] h-[40px] rounded-2xl bg-[#848485] mr-4"
+                    placeholder="방제목을 입력하세요"
+                    class="placeholder: placeholder-gray-300 pl-3 w-[280px] h-[40px] rounded-2xl bg-[#848485] mr-4"
                 />
                 <button
                     id="enter-btn"
@@ -41,47 +42,53 @@
         <!-- 방 만들기 모달창 -->
         <div
             id="modal"
-            class="modal rounded-2xl border-4 border-white bg-black p-6 w-[600px] h-[300px] mx-auto my-12 flex items-start justify-center pt-20"
+            class="fixed inset-0 z-[9999] flex items-center justify-center hidden"
         >
-            <form
-                class="flex flex-col items-center justify-center gap-4 w-full mt-2"
+            <div
+                class="modal rounded-2xl border-4 border-white bg-black p-6 w-[600px] h-[300px] flex items-start justify-center pt-20"
             >
-                <div
-                    class="input-contents grid grid-cols-[auto_1fr] gap-x-5 gap-y-4"
+                <form
+                    class="flex flex-col items-center justify-center gap-4 w-full mt-2"
                 >
-                    <label for="room-name" class="text-white">방제목</label>
-                    <input
-                        type="text"
-                        class="border rounded-md bg-gray-300 p-1"
-                        id="room-name"
-                        required
-                    />
-                    <label for="persons" class="text-white">최대 인원</label>
-                    <input
-                        type="number"
-                        max="8"
-                        min="4"
-                        value="4"
-                        class="border rounded-md bg-gray-300 p-1 w-16"
-                        id="persons"
-                    />
-                </div>
+                    <div
+                        class="input-contents grid grid-cols-[auto_1fr] gap-x-5 gap-y-4"
+                    >
+                        <label for="room-name" class="text-white">방제목</label>
+                        <input
+                            type="text"
+                            class="border rounded-md bg-gray-300 p-1"
+                            id="room-name"
+                            required
+                        />
+                        <label for="persons" class="text-white"
+                            >최대 인원</label
+                        >
+                        <input
+                            type="number"
+                            max="8"
+                            min="4"
+                            value="4"
+                            class="border rounded-md bg-gray-300 p-1 w-16"
+                            id="persons"
+                        />
+                    </div>
 
-                <div class="btns flex gap-7 mt-4">
-                    <button
-                        id="create-btn"
-                        class="border-0 hover:bg-white font-semibold bg-[#FFDB5C] text-black w-24 h-10 rounded-2xl"
-                    >
-                        생성
-                    </button>
-                    <button
-                        id="cancel-btn"
-                        class="border-0 bg-[#5D010A] hover:bg-white hover:text-black font-semibold text-white w-24 h-10 rounded-2xl"
-                    >
-                        취소
-                    </button>
-                </div>
-            </form>
+                    <div class="btns flex gap-7 mt-4">
+                        <button
+                            id="create-btn"
+                            class="border-0 hover:bg-white font-semibold bg-[#FFDB5C] text-black w-24 h-10 rounded-2xl"
+                        >
+                            생성
+                        </button>
+                        <button
+                            id="cancel-btn"
+                            class="border-0 bg-[#5D010A] hover:bg-white hover:text-black font-semibold text-white w-24 h-10 rounded-2xl"
+                        >
+                            취소
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <!-- 채팅방 리스트 -->

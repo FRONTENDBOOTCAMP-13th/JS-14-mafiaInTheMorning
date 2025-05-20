@@ -1,21 +1,22 @@
-import { sendMsg } from '../lib/yongchat';
+import { type Chat, sendMsg } from '../lib/yongchat';
 
-let msgInput = document.querySelector('#msg-input') as any;
-const sendBtn = document.querySelector('#send-btn');
-const chatArea = document.querySelector('#chat-area');
+export let msgInput = document.querySelector('#msg-input') as any;
+export const sendBtn = document.querySelector('#send-btn');
+export const chatArea = document.querySelector('#chat-area');
 
-// 전송 버튼 클릭
-sendBtn?.addEventListener('click', () => {
-    sendMsg(msgInput.value);
-    msgInput.value = '';
-    msgInput.focus();
-});
+export function chat(id: string) {
+    const msg: Chat = {
+        action: 'chat',
+        nickname: id,
+        msg: msgInput.value,
+    };
+    sendMsg(msg);
+}
 
-// 엔터 눌러도 전송가능하게
-msgInput.addEventListener('keyup', (e: any) => {
-    if (e.key === 'Enter') {
-        sendMsg(msgInput.value);
-        msgInput.value = '';
-        msgInput.focus();
-    }
-});
+export function showText(data: Chat) {
+    const p = document.createElement('p');
+    // console.log(data.nickname)
+    p.innerText = `${data.nickname} :  ${data.msg}`;
+    console.log('채팅 영역', chatArea);
+    chatArea?.appendChild(p);
+}

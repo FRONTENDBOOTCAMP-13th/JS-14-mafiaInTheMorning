@@ -2,10 +2,12 @@ import {
     joinRoom,
     leaveRoom,
     socket,
+    sendMsg,
     type ChatMessage,
     type JoinRoomParams,
 } from '../lib/yongchat';
 import { getMyRole, startGame } from './start';
+import { showText, msgInput, sendBtn, chat } from './chatting';
 
 const urlParams = new URLSearchParams(window.location.search);
 const roomId = urlParams.get('roomId');
@@ -38,6 +40,26 @@ if (roomId && roomTitle) {
     alert('방 정보가 없습니다.');
 }
 
+// 메세지 전송
+// 전송 버튼 클릭
+sendBtn?.addEventListener('click', () => {
+    // sendMsg(msgInput.value);
+    chat(user_id);
+    msgInput.value = '';
+    msgInput.focus();
+});
+// 엔터 눌러도 전송가능하게
+msgInput.addEventListener('keyup', (e: any) => {
+    if (e.key === 'Enter') {
+        // sendMsg(msgInput.value);
+
+        chat(user_id);
+
+        msgInput.value = '';
+        msgInput.focus();
+    }
+});
+
 // 나가기 버튼 클릭
 const leaveBtn = document.querySelector('#leave-btn');
 // 게임 나가기
@@ -49,7 +71,7 @@ leaveBtn?.addEventListener('click', () => {
 const roleDiv = document.querySelector('#my-role')!;
 
 socket.on('message', (data: ChatMessage) => {
-    console.log(data.msg);
+    console.log('받은 데이터', data.msg);
     switch (data.msg.action) {
         case 'start':
             const myRole = getMyRole(data.msg.roles, user_id);
@@ -58,7 +80,10 @@ socket.on('message', (data: ChatMessage) => {
             }
 
             break;
+
         case 'chat':
+            showText(data.msg);
+            break;
         case 'vote':
         case 'liveordie':
 

@@ -101,6 +101,7 @@ export interface JoinRoom {
 export interface StartGame {
     action: 'start';
     roles: Role[];
+    phase: 'day' | 'night';
 }
 
 export interface Chat {
@@ -111,7 +112,7 @@ export interface Chat {
 
 export interface Vote {
     action: 'vote'; //투표
-    user_Id: string; //유저 아이디
+    user_id: string; //유저 아이디
     nickName: string;
     from: string; //투표한 사람의 id
     to: string; //투표당한 사람의 id

@@ -1,4 +1,5 @@
 import '../style.css';
+
 // 낮/밤을 타입을 정의
 type Phase = 'day' | 'night';
 
@@ -10,19 +11,29 @@ let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
 let time: number; // 남은 시간 (초)
 let timerInterval: number;
 
+// ✅ phase를 인자로 받아서 시작을 강제할 수 있게 수정
+type StartPhase = 'day' | 'night';
+
 // 낮/밤 전환 함수
-export function switchPhase(): void {
+export function switchPhase(startPhase?: StartPhase): void {
     const timerContainer = document.getElementById('timer-container');
     if (timerContainer) {
         timerContainer.classList.remove('hidden');
+        timerContainer.classList.add('flex');
     }
 
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
 
-    //밤/낮 , 시간 전환
-    currentPhase = currentPhase === 'day' ? 'night' : 'day'; // 밤부터 시작
+    // 밤/낮 상태 전환
+    if (startPhase) {
+        // ✅ 서버에서 시작 phase가 지정되었을 경우 강제 설정
+        currentPhase = startPhase;
+    } else {
+        currentPhase = currentPhase === 'day' ? 'night' : 'day';
+    }
+
     time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
 
     // 낮/밤 알림 업데이트
@@ -134,6 +145,3 @@ export function finalVotePhase(): void {
         }
     }, 1000);
 }
-
-// 초기 실행 시 밤으로 시작
-switchPhase(); // 밤 시작 후 낮 - 지목 - 변론 - 찬반 투표 - 밤 순환

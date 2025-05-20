@@ -11,7 +11,12 @@ let time: number; // 남은 시간 (초)
 let timerInterval: number;
 
 // 낮/밤 전환 함수
-function switchPhase(): void {
+export function switchPhase(): void {
+    const timerContainer = document.getElementById('timer-container');
+    if (timerContainer) {
+        timerContainer.classList.remove('hidden');
+    }
+
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
@@ -42,7 +47,7 @@ function switchPhase(): void {
 }
 
 // 타이머 실행 함수
-function startTimer(): void {
+export function startTimer(): void {
     // 1초마다 실행 , setInterval 사용
     //  setInterval : 지정한 시간 간격마다 함수를 계속 반복 실행하는 JavaScript 내장 함수
     // setInterval(callback함수, 반복 간격(ms));
@@ -80,7 +85,7 @@ decreaseBtn.addEventListener('click', () => {
 });
 
 // 지목 투표 시작 (낮 끝난 뒤 15초)
-function startVoteSequence(): void {
+export function startVoteSequence(): void {
     console.log('지목 투표 시작 (15초)');
     time = 15;
     timeRemaining.textContent = time.toString();
@@ -97,7 +102,7 @@ function startVoteSequence(): void {
 }
 
 // 최후 변론 (10초)
-function startDefensePhase(): void {
+export function startDefensePhase(): void {
     console.log('최후 변론 (10초)');
     time = 10;
     timeRemaining.textContent = time.toString();
@@ -114,7 +119,7 @@ function startDefensePhase(): void {
 }
 
 // 찬반 투표 (15초)
-function finalVotePhase(): void {
+export function finalVotePhase(): void {
     console.log('최종 찬반 투표 시작 (15초)');
     time = 15;
     timeRemaining.textContent = time.toString();

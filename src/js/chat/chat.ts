@@ -1,15 +1,13 @@
 import '../../style.css';
 import {
-  getRoomInfo,
+    getRoomInfo,
     joinRoom,
     leaveRoom,
     socket,
     type ChatMessage,
     type JoinRoomParams,
-    type LiveOrDie,
     type RoomMember,
     type RoomMembers,
-    type Vote,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
 import { showText, msgInput, sendBtn, chat } from './chatting';
@@ -19,8 +17,6 @@ import {
     lodChoice,
     lodChoices,
     lodArr,
-    showQuestion,
-    lodQ,
     lodResult,
 } from './liveordie';
 
@@ -28,7 +24,6 @@ import { currentPhase, switchPhase } from '../time';
 import { mafiaKill } from './kill';
 import { getPlayerList, setPlayerList } from '../lib/store';
 import { dayVote } from './vote';
-
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
@@ -60,8 +55,6 @@ if (roomId && roomTitle) {
 
         // 방장일 경우 시작 버튼 보이게
         hostStartBtn(result.roomInfo.hostName);
-
-        
     } else {
         alert(result.message);
     }
@@ -69,9 +62,7 @@ if (roomId && roomTitle) {
     alert('방 정보가 없습니다.');
 }
 
-const startButton = document.querySelector(
-    '#start-game',
-) as HTMLButtonElement;
+const startButton = document.querySelector('#start-game') as HTMLButtonElement;
 
 // 게임 시작 버튼 클릭 이벤트
 startButton?.addEventListener('click', async () => {
@@ -137,14 +128,15 @@ socket.on('message', async (data: ChatMessage) => {
 
             const roomInfo = await getRoomInfo(roomId);
 
-            for(const playerId in roomInfo.memberList) {
-              const player = roomInfo.memberList[playerId];
-              const playerRole = data.msg.roles.find(role => role.user_id === playerId);
-              if(playerRole){
-                player.role = playerRole.role;
-                player.vote = 0;
-              }
-              
+            for (const playerId in roomInfo.memberList) {
+                const player = roomInfo.memberList[playerId];
+                const playerRole = data.msg.roles.find(
+                    role => role.user_id === playerId,
+                );
+                if (playerRole) {
+                    player.role = playerRole.role;
+                    player.vote = 0;
+                }
             }
 
             setPlayerList(roomInfo.memberList);
@@ -225,8 +217,8 @@ function addUserToVoteUI(user: RoomMember) {
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
             mafiaKill(user_id, targetId);
-        }else{
-          dayVote(user_id, targetId);
+        } else {
+            dayVote(user_id, targetId);
         }
     });
 

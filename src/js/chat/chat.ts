@@ -143,8 +143,8 @@ socket.on('message', (data: ChatMessage) => {
             console.log(trueCnt);
 
             break;
-            // 아직 구현 전
-             case 'kill': {
+        // 아직 구현 전
+        case 'kill': {
             const { targetId } = data.msg as {
                 targetId: string;
                 from: string;
@@ -152,6 +152,7 @@ socket.on('message', (data: ChatMessage) => {
             console.log(`${targetId}이(가) 죽었습니다.`);
 
             break;
+        }
     }
 });
 /**

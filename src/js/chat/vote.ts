@@ -7,19 +7,21 @@
 
 import { type Vote } from '../lib/yongchat'; //user_Id 가져오기
 
-//랜더링
 //userProfiles : 유저들의 닉네임들(프로필)
 // memberList: 방에 있는 모든 유저 목록
-// myUserId : 자기 자신
-export function userProfiles(memberList: Vote.user_id[], myUserId: string){
-  const profileList = document.querySelector('#profiles') as HTMLElement;
-  if(!profileList) {
-    console.log('가져올 수 없음');
-    return;
-  }
-  profileList.innerHTML = '';
+// memberList -> user_Id있음
+export function userProfiles(memberList: Vote) {
+    const profileList = document.querySelector('#profiles') as HTMLElement;
+    const users: Vote[] = Object.keys(memberList).map(user_id => {
+        console.log(user_id);
+        return user_id;
+    });
 
-  memberList.forEach((users) => {
+    profileList.textContent = memberList.user_id;
+    if (!profileList) return;
+    profileList.innerHTML = '';
 
-  });
-})
+    profileList.forEach(profileList => {
+        console.log(profileList.user_Id);
+    });
+}

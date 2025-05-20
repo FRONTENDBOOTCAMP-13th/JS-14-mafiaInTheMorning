@@ -7,9 +7,9 @@ const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 const increaseBtn = document.getElementById('plusbtn') as HTMLButtonElement;
 const decreaseBtn = document.getElementById('minusbtn') as HTMLButtonElement;
 
-let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
-let time: number; // 남은 시간 (초)
-let timerInterval: number;
+export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
+export let time: number; // 남은 시간 (초)
+export let timerInterval: number;
 
 // ✅ phase를 인자로 받아서 시작을 강제할 수 있게 수정
 type StartPhase = 'day' | 'night';

@@ -124,6 +124,7 @@ export interface Kill {
 
 export interface LiveOrDie {
     action: 'liveordie';
+    choice: boolean;
 }
 
 // npm i @types/socket.io-client 필요

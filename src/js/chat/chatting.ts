@@ -1,9 +1,11 @@
 import { type Chat, sendMsg } from '../lib/yongchat';
+import { gameDay, setGameDay } from '../SkilsTestState';
 
 export let msgInput = document.querySelector('#msg-input') as any;
 export const sendBtn = document.querySelector('#send-btn');
 export const chatArea = document.querySelector('#chat-area');
 
+// 서버 발신
 export function chat(id: string) {
     const msg: Chat = {
         action: 'chat',
@@ -13,10 +15,13 @@ export function chat(id: string) {
     sendMsg(msg);
 }
 
+setGameDay('morning');
+
+// 수신
 export function showText(data: Chat) {
-    const p = document.createElement('p');
-    // console.log(data.nickname)
-    p.innerText = `${data.nickname} :  ${data.msg}`;
-    console.log('채팅 영역', chatArea);
-    chatArea?.appendChild(p);
+    if (gameDay === 'morning') {
+        const p = document.createElement('p');
+        p.innerText = `${data.nickname} :  ${data.msg}`;
+        chatArea?.appendChild(p);
+    }
 }

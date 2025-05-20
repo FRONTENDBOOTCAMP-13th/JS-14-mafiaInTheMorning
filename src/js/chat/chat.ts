@@ -1,18 +1,30 @@
+import '../../style.css';
 import {
     joinRoom,
     leaveRoom,
     socket,
-    sendMsg,
     type ChatMessage,
     type JoinRoomParams,
+    type LiveOrDie,
     type RoomMember,
     type RoomMembers,
 } from '../lib/yongchat';
-
 import { getMyRole, startGame, hostStartBtn } from './start';
 import { showText, msgInput, sendBtn, chat } from './chatting';
+import {
+    lodHide,
+    lodShow,
+    lodChoice,
+    lodChoices,
+    lodArr,
+    showQuestion,
+    lodQ,
+    lodResult,
+} from './liveordie';
+
 import { currentPhase, switchPhase } from '../time';
 import { mafiaKill } from './kill';
+
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
@@ -22,7 +34,6 @@ const user_id = urlParams.get('user_id') as string;
 // DOM 요소
 const roomTitle = document.querySelector('#room-title') as HTMLElement;
 const roleDiv = document.querySelector('#my-role')!;
-const leaveBtn = document.querySelector('#leave-btn');
 
 // 채팅방 입장 로직
 if (roomId && roomTitle) {
@@ -73,22 +84,42 @@ sendBtn?.addEventListener('click', () => {
 // 메시지 전송 - 엔터 입력
 msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
+        // sendMsg(msgInput.value);
         chat(user_id);
         msgInput.value = '';
         msgInput.focus();
     }
 });
 
-// 나가기 버튼 클릭 시
+// live or die
+
+let choice = true;
+let trueCnt = 0;
+document.querySelector('#lod-btn')?.addEventListener('click', () => {
+    lodShow();
+});
+document.querySelector('#kill')?.addEventListener('click', () => {
+    lodHide();
+    choice = true;
+    lodChoice(choice);
+});
+document.querySelector('#save')?.addEventListener('click', () => {
+    lodHide();
+    choice = false;
+    lodChoice(choice);
+});
+
+// 나가기 버튼 클릭
+const leaveBtn = document.querySelector('#leave-btn');
+// 게임 나가기
 leaveBtn?.addEventListener('click', () => {
     leaveRoom();
-    window.location.href = `/src/pages/room.html?nickname=${encodeURIComponent(user_id)}`;
+    window.location.href = `/src/pages/chatlist-page.html?nickname=${encodeURIComponent(user_id)}`;
 });
 let myRole = '';
 // WebSocket 메시지 수신 처리
 socket.on('message', (data: ChatMessage) => {
-    console.log('받은 데이터', data.msg);
-
+    // console.log('받은 데이터', data.msg);
     switch (data.msg.action) {
         case 'start': {
             myRole = getMyRole(data.msg.roles, user_id) || '';
@@ -105,7 +136,15 @@ socket.on('message', (data: ChatMessage) => {
             break;
 
         case 'vote':
+            break;
         case 'liveordie':
+            lodChoices(data.msg, lodArr);
+            console.log(lodArr);
+            trueCnt = lodResult(lodArr, trueCnt);
+            console.log(trueCnt);
+
+            break;
+        // 아직 구현 전
         case 'kill': {
             const { targetId } = data.msg as {
                 targetId: string;

@@ -6,7 +6,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const nickname = urlParams.get('nickname') as string;
 
 export function setRooms(rooms: RoomsResponse) {
-    console.log('게임 목록:', rooms);
+    // console.log('게임 목록:', rooms);
     for (const key in rooms) {
         const roomInfo = rooms[key];
 

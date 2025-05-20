@@ -6,7 +6,7 @@ import { setRooms } from '../room/roomList';
  */
 export interface ChatMessage {
     nickName: string;
-    msg: StartGame | Chat | LiveOrDie | Vote | Kill;
+    msg: StartGame | Chat | LiveOrDie | Vote | Kill | JoinRoom;
 }
 
 /**
@@ -93,6 +93,11 @@ export interface Role {
     // role: 'mafia' | 'citizen' | 'doctor' | 'police';
 }
 
+export interface JoinRoom {
+    action: 'joinRoom';
+    params: JoinRoomParams;
+    msg: string;
+}
 export interface StartGame {
     action: 'start';
     roles: Role[];
@@ -115,6 +120,8 @@ export interface Vote {
 
 export interface Kill {
     action: 'kill';
+    targetId: string;
+    from: string;
 }
 
 export interface LiveOrDie {

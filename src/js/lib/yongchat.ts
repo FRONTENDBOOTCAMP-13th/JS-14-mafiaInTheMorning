@@ -108,6 +108,8 @@ export interface Vote {
 
 export interface Kill {
     action: 'kill';
+    targetId: string;
+    from: string;
 }
 
 export interface LiveOrDie {

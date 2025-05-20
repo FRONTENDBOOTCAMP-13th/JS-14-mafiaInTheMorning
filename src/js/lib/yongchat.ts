@@ -15,6 +15,15 @@ export interface ChatMessage {
 export interface RoomMember {
     user_id: string;
     nickName: string;
+    role: string;
+    vote: number;
+    killed: boolean;
+}
+
+export interface LiveOrDiePlayer {
+    user_id: string;
+    nickName: string;
+    vote: number;
 }
 
 /**

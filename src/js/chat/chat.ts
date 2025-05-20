@@ -13,7 +13,7 @@ const user_id = urlParams.get('user_id') as string;
 const roomTitle = document.querySelector('#room-title') as HTMLElement;
 
 if (roomId && roomTitle) {
-    roomTitle.textContent = `채팅방: ${roomId}`;
+    // roomTitle.textContent = `채팅방: ${roomName}`;
 
     const params: JoinRoomParams = {
         roomId,
@@ -23,12 +23,17 @@ if (roomId && roomTitle) {
 
     const result = await joinRoom(params);
     console.log('채팅방 참여함:', result);
+    if (result.ok) {
+        roomTitle.textContent = `채팅방: ${result.roomInfo.roomName}`;
 
-    // 게임 시작
-    document.querySelector('#start-game')?.addEventListener('click', () => {
-        // startGame();
-        startGame(result.roomInfo.memberList);
-    });
+        // 게임 시작
+        document.querySelector('#start-game')?.addEventListener('click', () => {
+            // startGame();
+            startGame(result.roomInfo.memberList);
+        });
+    } else {
+        alert(result.message);
+    }
 } else {
     alert('방 정보가 없습니다.');
 }

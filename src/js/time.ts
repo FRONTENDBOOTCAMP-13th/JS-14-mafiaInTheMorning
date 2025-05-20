@@ -1,7 +1,7 @@
 import '../style.css';
 
 // 낮/밤을 타입을 정의
-type Phase = 'day' | 'night';
+export type Phase = 'day' | 'night';
 
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 const increaseBtn = document.getElementById('plusbtn') as HTMLButtonElement;

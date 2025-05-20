@@ -100,10 +100,16 @@ export interface StartGame {
 
 export interface Chat {
     action: 'chat';
+    nickname: string;
+    msg: string;
 }
 
 export interface Vote {
-    action: 'vote';
+    action: 'vote'; //투표
+    user_Id: string; //유저 아이디
+    nickName: string;
+    from: string; //투표한 사람의 id
+    to: string; //투표당한 사람의 id
 }
 
 export interface Kill {

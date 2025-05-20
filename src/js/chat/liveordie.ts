@@ -1,0 +1,39 @@
+import { type LiveOrDie, sendMsg } from '../lib/yongchat';
+
+export const liveOrDieDiv = document.querySelector('#live-or-die');
+export const lodQ = document.querySelector('#wantKill') as any;
+export const lodArr: boolean[] = [];
+
+export function lodHide() {
+    if (liveOrDieDiv) liveOrDieDiv.classList.add('hidden');
+}
+export function lodShow() {
+    if (liveOrDieDiv) liveOrDieDiv.classList.remove('hidden');
+}
+
+export function showQuestion(member: string) {
+    lodQ.innerText = `${member}님이 마피아로 지목당했습니다. 죽이길 동의하십니까?`;
+}
+// 서버 발송
+export function lodChoice(yesorno: boolean) {
+    const msg: LiveOrDie = {
+        action: 'liveordie',
+        choice: yesorno,
+    };
+    sendMsg(msg);
+}
+
+// 선택들을 배열에 담기
+export function lodChoices(data: LiveOrDie, arr: Array<boolean>) {
+    arr.push(data.choice);
+}
+
+// 찬성표 세기
+export function lodResult(arr: Array<boolean>, cnt: number) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === true) {
+            cnt = cnt + 1;
+        }
+    }
+    return cnt;
+}

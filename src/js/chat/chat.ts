@@ -11,7 +11,8 @@ import {
 
 import { getMyRole, startGame, hostStartBtn } from './start';
 import { showText, msgInput, sendBtn, chat } from './chatting';
-import { switchPhase } from '../time';
+import { currentPhase, switchPhase } from '../time';
+import { mafiaKill } from './kill';
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
@@ -83,14 +84,14 @@ leaveBtn?.addEventListener('click', () => {
     leaveRoom();
     window.location.href = `/src/pages/room.html?nickname=${encodeURIComponent(user_id)}`;
 });
-
+let myRole = '';
 // WebSocket 메시지 수신 처리
 socket.on('message', (data: ChatMessage) => {
     console.log('받은 데이터', data.msg);
 
     switch (data.msg.action) {
         case 'start': {
-            const myRole = getMyRole(data.msg.roles, user_id);
+            myRole = getMyRole(data.msg.roles, user_id) || '';
             if (myRole) {
                 roleDiv.innerHTML = myRole;
                 switchPhase('night');
@@ -105,9 +106,15 @@ socket.on('message', (data: ChatMessage) => {
 
         case 'vote':
         case 'liveordie':
-        case 'kill':
-            // 아직 구현 전
+        case 'kill': {
+            const { targetId } = data.msg as {
+                targetId: string;
+                from: string;
+            };
+            console.log(`${targetId}이(가) 죽었습니다.`);
+
             break;
+        }
     }
 });
 /**
@@ -136,7 +143,7 @@ function addUserToVoteUI(user: RoomMember) {
     // if (existing) return; // 중복 방지
 
     const div = document.createElement('div');
-    div.id = `user-${user.user_id}`;
+    div.dataset.userid = user.nickName;
     div.className = `
         w-[180px] h-[100px]
         flex flex-col items-center justify-center
@@ -149,9 +156,13 @@ function addUserToVoteUI(user: RoomMember) {
     `;
 
     // 클릭 이벤트로 투표 및 마피아 기능
-    div.addEventListener('click', e => {
-        console.log(`${user.nickName}을 선택함`);
-        // 예: vote(user.user_id) 처럼 함수 연결 가능
+    div.addEventListener('click', () => {
+        console.log(`${user_id}클릭`, div.dataset.userid);
+
+        // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
+        if (currentPhase === 'night' && myRole === '마피아') {
+            mafiaKill(user_id, div.dataset.userid!);
+        }
     });
 
     container.appendChild(div);

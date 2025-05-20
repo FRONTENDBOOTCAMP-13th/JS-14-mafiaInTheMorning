@@ -1,5 +1,6 @@
 import '../../style.css';
 import {
+  getRoomInfo,
     joinRoom,
     leaveRoom,
     socket,
@@ -8,6 +9,7 @@ import {
     type LiveOrDie,
     type RoomMember,
     type RoomMembers,
+    type Vote,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
 import { showText, msgInput, sendBtn, chat } from './chatting';
@@ -24,11 +26,13 @@ import {
 
 import { currentPhase, switchPhase } from '../time';
 import { mafiaKill } from './kill';
+import { getPlayerList, setPlayerList } from '../lib/store';
+import { dayVote } from './vote';
 
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
-const roomId = urlParams.get('roomId');
+const roomId = urlParams.get('roomId')!;
 const user_id = urlParams.get('user_id') as string;
 
 // DOM 요소
@@ -57,22 +61,25 @@ if (roomId && roomTitle) {
         // 방장일 경우 시작 버튼 보이게
         hostStartBtn(result.roomInfo.hostName);
 
-        const startButton = document.querySelector(
-            '#start-game',
-        ) as HTMLButtonElement;
-
-        // 게임 시작 버튼 클릭 이벤트
-        startButton?.addEventListener('click', () => {
-            startGame(result.roomInfo.memberList);
-            switchPhase();
-            startButton.disabled = true;
-        });
+        
     } else {
         alert(result.message);
     }
 } else {
     alert('방 정보가 없습니다.');
 }
+
+const startButton = document.querySelector(
+    '#start-game',
+) as HTMLButtonElement;
+
+// 게임 시작 버튼 클릭 이벤트
+startButton?.addEventListener('click', async () => {
+    const roomInfo = await getRoomInfo(roomId);
+    startGame(roomInfo.memberList);
+    // switchPhase();
+    startButton.disabled = true;
+});
 
 // 메시지 전송 - 버튼 클릭
 sendBtn?.addEventListener('click', () => {
@@ -118,8 +125,8 @@ leaveBtn?.addEventListener('click', () => {
 });
 let myRole = '';
 // WebSocket 메시지 수신 처리
-socket.on('message', (data: ChatMessage) => {
-    // console.log('받은 데이터', data.msg);
+socket.on('message', async (data: ChatMessage) => {
+    console.log('받은 데이터', data.msg);
     switch (data.msg.action) {
         case 'start': {
             myRole = getMyRole(data.msg.roles, user_id) || '';
@@ -127,6 +134,22 @@ socket.on('message', (data: ChatMessage) => {
                 roleDiv.innerHTML = myRole;
                 switchPhase('night');
             }
+
+            const roomInfo = await getRoomInfo(roomId);
+
+            for(const playerId in roomInfo.memberList) {
+              const player = roomInfo.memberList[playerId];
+              const playerRole = data.msg.roles.find(role => role.user_id === playerId);
+              if(playerRole){
+                player.role = playerRole.role;
+                player.vote = 0;
+              }
+              
+            }
+
+            setPlayerList(roomInfo.memberList);
+
+            console.log('playerList', getPlayerList());
 
             break;
         }
@@ -198,9 +221,12 @@ function addUserToVoteUI(user: RoomMember) {
     div.addEventListener('click', () => {
         console.log(`${user_id}클릭`, div.dataset.userid);
 
+        const targetId = div.dataset.userid!;
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
-            mafiaKill(user_id, div.dataset.userid!);
+            mafiaKill(user_id, targetId);
+        }else{
+          dayVote(user_id, targetId);
         }
     });
 

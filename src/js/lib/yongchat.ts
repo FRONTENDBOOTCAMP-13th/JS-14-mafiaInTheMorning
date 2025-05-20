@@ -176,7 +176,7 @@ export function createRoom(
     if (!params.roomName.trim()) {
         throw new Error('roomName이 없습니다.');
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         socket.emit('createRoom', params, (res: CreateRoomResponse) => {
             resolve(res);
         });
@@ -196,7 +196,7 @@ export function joinRoom(params: JoinRoomParams): Promise<JoinRoomResponse> {
     if (!params.user_id.trim()) {
         throw new Error('user_id가 없습니다.');
     }
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         socket.emit('joinRoom', params, (res: JoinRoomResponse) => {
             resolve(res);
         });
@@ -208,7 +208,7 @@ export function joinRoom(params: JoinRoomParams): Promise<JoinRoomResponse> {
  * @returns Promise<RoomsResponse> - 전체 채팅방 목록
  */
 export function getRooms(): Promise<RoomsResponse> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         socket.emit('rooms', (rooms: RoomsResponse) => {
             resolve(rooms);
         });
@@ -221,7 +221,7 @@ export function getRooms(): Promise<RoomsResponse> {
  * @returns Promise<RoomInfo> - 채팅방 정보
  */
 export function getRoomInfo(roomId: string): Promise<RoomInfo> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         socket.emit('roomInfo', roomId, (roomInfo: RoomInfo) => {
             resolve(roomInfo);
         });

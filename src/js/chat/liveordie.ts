@@ -1,5 +1,5 @@
 import { getLiveOrDiePlayer } from '../lib/store';
-import { type ChatMessage, type LiveOrDie, sendMsg, socket } from '../lib/yongchat';
+import { type LiveOrDie, sendMsg, socket } from '../lib/yongchat';
 
 export const liveOrDieDiv = document.querySelector('#live-or-die');
 export const lodQ = document.querySelector('#wantKill') as any;
@@ -10,8 +10,8 @@ export function lodHide() {
     if (liveOrDieDiv) liveOrDieDiv.classList.add('hidden');
 }
 export function lodShow() {
-  const target = getLiveOrDiePlayer();
-  votePlayerElem.innerHTML = target.nickName;
+    const target = getLiveOrDiePlayer();
+    votePlayerElem.innerHTML = target.nickName;
     if (liveOrDieDiv) liveOrDieDiv.classList.remove('hidden');
 }
 
@@ -42,12 +42,11 @@ export function lodResult(arr: Array<boolean>, cnt: number) {
     return cnt;
 }
 
-
 // WebSocket 메시지 수신 처리
 socket.on('message', (data: LiveOrDie) => {
     switch (data.action) {
         case 'liveordie':
-          console.log(data.choice);
+            console.log(data.choice);
             break;
     }
 });

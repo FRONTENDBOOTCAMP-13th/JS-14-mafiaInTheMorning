@@ -96,6 +96,7 @@ export interface Role {
 export interface StartGame {
     action: 'start';
     roles: Role[];
+    phase: 'day' | 'night';
 }
 
 export interface Chat {

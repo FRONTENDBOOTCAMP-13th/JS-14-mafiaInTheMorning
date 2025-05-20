@@ -22,7 +22,8 @@ import {
     lodResult,
 } from './liveordie';
 
-import { switchPhase } from '../time';
+import { currentPhase, switchPhase } from '../time';
+import { mafiaKill } from './kill';
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
@@ -142,8 +143,14 @@ socket.on('message', (data: ChatMessage) => {
             console.log(trueCnt);
 
             break;
-        case 'kill':
             // 아직 구현 전
+             case 'kill': {
+            const { targetId } = data.msg as {
+                targetId: string;
+                from: string;
+            };
+            console.log(`${targetId}이(가) 죽었습니다.`);
+
             break;
     }
 });

@@ -9,9 +9,10 @@ import {
     type RoomMember,
     type RoomMembers,
 } from '../lib/yongchat';
-import { getMyRole, startGame } from './start';
 
+import { getMyRole, startGame, hostStartBtn } from './start';
 import { showText, msgInput, sendBtn, chat } from './chatting';
+import { switchPhase } from '../time';
 
 const urlParams = new URLSearchParams(window.location.search);
 const roomId = urlParams.get('roomId');
@@ -29,9 +30,19 @@ if (roomId && roomTitle) {
     console.log('채팅방 참여함:', result);
     if (result.ok) {
         roomTitle.textContent = `채팅방: ${result.roomInfo.roomName}`;
+        //방장에게만 start버튼 보임
+        hostStartBtn(result.roomInfo.hostName);
 
-        document.querySelector('#start-game')?.addEventListener('click', () => {
+        const startButton = document.querySelector(
+            '#start-game',
+        ) as HTMLButtonElement;
+
+        startButton?.addEventListener('click', () => {
             startGame(result.roomInfo.memberList);
+            //타이머 시작
+            switchPhase();
+            //게임시작 후 시작버튼 비활성화
+            startButton.disabled = true;
         });
     } else {
         alert(result.message);
@@ -77,6 +88,8 @@ socket.on('message', (data: ChatMessage) => {
             if (myRole) {
                 roleDiv.innerHTML = myRole;
             }
+            switchPhase();
+
             break;
         }
 

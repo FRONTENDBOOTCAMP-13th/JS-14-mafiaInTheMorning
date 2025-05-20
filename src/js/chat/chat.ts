@@ -87,8 +87,8 @@ socket.on('message', (data: ChatMessage) => {
             const myRole = getMyRole(data.msg.roles, user_id);
             if (myRole) {
                 roleDiv.innerHTML = myRole;
+                switchPhase('night');
             }
-            switchPhase();
 
             break;
 

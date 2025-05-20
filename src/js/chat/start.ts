@@ -46,6 +46,7 @@ export function startGame(memberList: RoomMembers) {
     const msg: StartGame = {
         action: 'start',
         roles,
+        phase: 'night',
     };
     sendMsg(msg);
 }

@@ -112,10 +112,8 @@ export interface Chat {
 
 export interface Vote {
     action: 'vote'; //투표
-    user_id: string; //유저 아이디
-    nickName: string;
-    from: string; //투표한 사람의 id
-    to: string; //투표당한 사람의 id
+    targetId: string;
+    from: string;
 }
 
 export interface Kill {

@@ -1,27 +1,22 @@
-// 낮에 투표
-// 마피아 찾기
+// 낮에 투표 마피아 찾기
 // 낮에 모두 투표함
-// 1. 닉네임을 가져와서 화면에 띄우기 -> 방에 들어오면 닉네임(+프로필) 생성
-// 2. 프로필 클릭하면 투표됨
-// 만약 방을 나가면 프로필 사라진다
+// 1. 닉네임을 화면에 띄우기
+// 2. 클릭하면 투표됨 - 낮에만 투표 가능, 밤에 투표하면 안된다고 경고창 or 클릭 안됨
+// 죽으면 투표 못 함
+// 죽은 유저들의 정보는???
 
-import { type Vote } from '../lib/yongchat'; //user_Id 가져오기
+import { sendMsg, socket, type ChatMessage, type Vote } from '../lib/yongchat'; //가져오기
 
-//userProfiles : 유저들의 닉네임들(프로필)
-// memberList: 방에 있는 모든 유저 목록
-// memberList -> user_Id있음
-export function userProfiles(memberList: Vote) {
-    const profileList = document.querySelector('#profiles') as HTMLElement;
-    const users: Vote[] = Object.keys(memberList).map(user_id => {
-        console.log(user_id);
-        return user_id;
-    });
-
-    profileList.textContent = memberList.user_id;
-    if (!profileList) return;
-    profileList.innerHTML = '';
-
-    profileList.forEach(profileList => {
-        console.log(profileList.user_Id);
-    });
+export function dayVote(data: Vote) {
+    sendMsg(data);
 }
+
+// WebSocket 메시지 수신 처리
+socket.on('message', (data: ChatMessage) => {
+    console.log('받은 데이터', data.msg);
+
+    switch (data.msg.action) {
+        case 'vote':
+            break;
+    }
+});

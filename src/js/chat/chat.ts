@@ -23,7 +23,6 @@ import {
 } from './liveordie';
 
 import { currentPhase, switchPhase } from '../time';
-import { mafiaKill } from './kill';
 
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);

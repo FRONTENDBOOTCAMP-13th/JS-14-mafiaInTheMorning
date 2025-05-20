@@ -100,6 +100,8 @@ export interface StartGame {
 
 export interface Chat {
     action: 'chat';
+    nickname: string;
+    msg: string;
 }
 
 export interface Vote {

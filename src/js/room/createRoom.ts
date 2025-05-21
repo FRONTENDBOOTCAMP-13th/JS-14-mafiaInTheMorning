@@ -31,6 +31,7 @@ createBtn?.addEventListener('click', async e => {
             user_id: nickname,
             roomName: roomName.value,
             hostName: nickname,
+            autoclose: true,
             // persons: persons.value,
         };
         const result = await createRoom(params);

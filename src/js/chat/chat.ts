@@ -129,11 +129,23 @@ document.querySelector('#lod-btn')?.addEventListener('click', () => {
     lodShow();
 });
 document.querySelector('#kill')?.addEventListener('click', () => {
+    const myPlayer = getPlayerList()[user_id];
+    if (myPlayer.killed) {
+        alert('죽은 사람이 어딜 !');
+        return;
+    }
+
     lodHide();
     choice = true;
     lodChoice(choice);
 });
 document.querySelector('#save')?.addEventListener('click', () => {
+    const myPlayer = getPlayerList()[user_id];
+    if (myPlayer.killed) {
+        alert('죽은 사람이 어딜 !');
+        return;
+    }
+
     lodHide();
     choice = false;
     lodChoice(choice);

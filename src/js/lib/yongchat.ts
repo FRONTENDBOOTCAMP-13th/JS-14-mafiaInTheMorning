@@ -60,6 +60,7 @@ export interface CreateRoomParams {
     user_id: string;
     roomName: string;
     hostName: string;
+    autoclose: boolean;
 }
 
 /**

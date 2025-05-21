@@ -8,13 +8,20 @@
         <script type="module" src="/src/style.css"></script>
     </head>
     <body
-        class="bg-cover bg-center h-screen"
-        style="background-image: url('/src/assets/main.jpg')"
+        class="bg-center h-screen"
+        style="
+            background-image: url('/src/assets/main.jpg');
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: black; /* 이 부분 추가 */
+        "
     >
         <!-- Start 버튼 -->
         <button
             id="main-startButton"
-            class="fixed bottom-15 right-15 bg-[#920613] hover:bg-red-950 text-white text-2xl font-semibold py-2 px-9 rounded-2xl shadow-md shadow-black transition"
+            class="fixed bottom-15 right-15 bg-[#920613] text-white text-2xl font-semibold py-2 px-9 rounded-2xl shadow-md shadow-black transition duration-300 ease-in-out hover:bg-red-950 hover:shadow-lg hover:scale-105"
+            style="will-change: transform, box-shadow, background-color"
         >
             Start
         </button>
@@ -36,16 +43,17 @@
                     type="text"
                     id="nicknameInput"
                     placeholder="닉네임을 입력하세요"
-                    class="w-90 mx-auto border-3 placeholder-gray-700 border-gray-600 rounded-md px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    style="background-color: #c2c2c2"
+                    class="w-90 mx-auto border-2 border-gray-600 rounded-md px-4 py-2 mb-4 placeholder-gray-700 bg-gradient-to-b from-[#d0d0d0] to-[#a8a8a8] shadow-sm shadow-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:shadow-md focus:shadow-blue-400 transition duration-300"
                 />
+
                 <div class="flex justify-center">
                     <button
                         id="confirmBtn"
-                        class="px-7 py-2 border-2 bg-[#2d3a63] hover:bg-blue-950 text-white rounded-4xl"
+                        class="px-7 py-2 rounded-4xl text-white font-semibold transition duration-300 ease-in-out bg-gradient-to-b from-[#2d3a63] to-[#1e2648] border-2 border-white shadow-md shadow-blue-900 hover:bg-gradient-to-b hover:from-[#374b8c] hover:to-[#19254a] hover:shadow-lg hover:shadow-blue-800 hover:scale-105"
                     >
                         확인
                     </button>
+
                     >
                 </div>
             </div>

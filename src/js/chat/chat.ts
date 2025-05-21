@@ -10,7 +10,7 @@ import {
     type RoomMembers,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
-import { showText, msgInput, sendBtn, chat } from './chatting';
+import { showText, msgInput, sendBtn, chat, chatArea } from './chatting';
 import {
     lodHide,
     lodShow,
@@ -20,9 +20,24 @@ import {
     lodResult,
 } from './liveordie';
 
-import { currentPhase, getCanAct, setCanAct, switchPhase } from '../time';
+import {
+    currentPhase,
+    getCanAct,
+    getVotePhase,
+    setCanAct,
+    switchPhase,
+} from '../time';
 import { mafiaKill } from './kill';
+
 import { getPlayerList, killPlayer, setPlayerList } from '../lib/store';
+
+import {
+    getLiveOrDiePlayer,
+    getLivePlayerCount,
+    getPlayerList,
+    setPlayerList,
+} from '../lib/store';
+
 import { dayVote } from './vote';
 
 // URL 파라미터 추출
@@ -86,6 +101,11 @@ startButton?.addEventListener('click', async () => {
 
 // 메시지 전송 - 버튼 클릭
 sendBtn?.addEventListener('click', () => {
+    const myPlayer = getPlayerList()[user_id];
+    if (myPlayer.killed) {
+        alert('당신은 사망하셨습니다.');
+        return;
+    }
     chat(user_id);
     msgInput.value = '';
     msgInput.focus();
@@ -95,6 +115,11 @@ sendBtn?.addEventListener('click', () => {
 msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
         // sendMsg(msgInput.value);
+        const myPlayer = getPlayerList()[user_id];
+        if (myPlayer.killed) {
+            alert('당신은 사망하셨습니다.');
+            return;
+        }
         chat(user_id);
         msgInput.value = '';
         msgInput.focus();
@@ -172,9 +197,26 @@ socket.on('message', async (data: ChatMessage) => {
         case 'vote':
             break;
         case 'liveordie':
+            let target = getLiveOrDiePlayer().nickName;
             lodChoices(data.msg, lodArr);
             console.log(lodArr);
-            trueCnt = lodResult(lodArr, trueCnt);
+            console.log(lodArr.length);
+            let livePlayer = getLivePlayerCount();
+            if (livePlayer == lodArr.length) {
+                trueCnt = lodResult(lodArr, trueCnt);
+                if (trueCnt > Math.floor(livePlayer / 2)) {
+                    // 죽이기
+                    mafiaKill('시민들(이)', target);
+                    lodArr.length = 0;
+                } else {
+                    // 살리기
+                    const p = document.createElement('p');
+                    p.innerText = `${target}님이 죽지 않았습니다.`;
+                    chatArea?.appendChild(p);
+
+                    lodArr.length = 0;
+                }
+            }
             console.log(trueCnt);
 
             break;
@@ -271,11 +313,15 @@ function addUserToVoteUI(user: RoomMember) {
             ${user.nickName}
         </div>
     `;
-
     // 클릭 이벤트로 투표 및 마피아 기능
     div.addEventListener('click', () => {
         if (!getCanAct()) {
             alert('이미 행동하셨습니다.');
+            return;
+        }
+        const myPlayer = getPlayerList()[user_id];
+        if (myPlayer.killed) {
+            alert('죽은 사람이 어케 투표해~');
             return;
         }
         console.log(`${user_id}클릭`, div.dataset.userid);
@@ -287,18 +333,23 @@ function addUserToVoteUI(user: RoomMember) {
             return;
         }
 
-        // 마피아 자기 자신 선택 금지
-        if (myRole === '마피아' && div.dataset.userid === user_id) {
-            alert('자기 자신은 선택할 수 없습니다.');
-            return;
-        }
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
+            // 마피아 자기 자신 선택 금지
+            if (myRole === '마피아' && div.dataset.userid === user_id) {
+                alert('자기 자신은 선택할 수 없습니다.');
+                return;
+            }
             mafiaKill(user_id, targetId);
-            console.log('playerList', getPlayerList());
         } else if (currentPhase === 'day') {
+            // 낮일 때 지목 투표 시간에만 허용
+            if (!getVotePhase()) {
+                alert('지금은 지목 투표 시간이 아닙니다.');
+                return;
+            }
             dayVote(user_id, targetId);
         }
+
         setCanAct(false);
     });
 

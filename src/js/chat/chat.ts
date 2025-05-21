@@ -36,6 +36,7 @@ import {
     setPlayerList,
 } from '../lib/store';
 
+
 import { dayVote } from './vote';
 
 // URL 파라미터 추출

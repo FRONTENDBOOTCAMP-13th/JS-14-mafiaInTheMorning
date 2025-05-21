@@ -85,6 +85,11 @@ startButton?.addEventListener('click', async () => {
 
 // 메시지 전송 - 버튼 클릭
 sendBtn?.addEventListener('click', () => {
+    const myPlayer = getPlayerList()[user_id];
+    if (myPlayer.killed) {
+        alert('당신은 사망하셨습니다.');
+        return;
+    }
     chat(user_id);
     msgInput.value = '';
     msgInput.focus();
@@ -94,6 +99,11 @@ sendBtn?.addEventListener('click', () => {
 msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
         // sendMsg(msgInput.value);
+        const myPlayer = getPlayerList()[user_id];
+        if (myPlayer.killed) {
+            alert('당신은 사망하셨습니다.');
+            return;
+        }
         chat(user_id);
         msgInput.value = '';
         msgInput.focus();
@@ -260,6 +270,11 @@ function addUserToVoteUI(user: RoomMember) {
     div.addEventListener('click', () => {
         if (!getCanAct()) {
             alert('이미 행동하셨습니다.');
+            return;
+        }
+        const myPlayer = getPlayerList()[user_id];
+        if (myPlayer.killed) {
+            alert('죽은 사람이 어케 투표해~');
             return;
         }
         console.log(`${user_id}클릭`, div.dataset.userid);

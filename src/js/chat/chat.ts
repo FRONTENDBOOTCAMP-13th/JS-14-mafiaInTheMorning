@@ -31,12 +31,7 @@ import { mafiaKill } from './kill';
 
 import { getPlayerList, killPlayer, setPlayerList } from '../lib/store';
 
-import {
-    getLiveOrDiePlayer,
-    getLivePlayerCount,
-    getPlayerList,
-    setPlayerList,
-} from '../lib/store';
+import { getLiveOrDiePlayer, getLivePlayerCount } from '../lib/store';
 
 import { dayVote } from './vote';
 

@@ -22,7 +22,7 @@ import {
 
 import { currentPhase, getCanAct, setCanAct, switchPhase } from '../time';
 import { mafiaKill } from './kill';
-import { getPlayerList, setPlayerList } from '../lib/store';
+import { getPlayerList, killPlayer, setPlayerList } from '../lib/store';
 import { dayVote } from './vote';
 
 // URL 파라미터 추출
@@ -33,6 +33,8 @@ const user_id = urlParams.get('user_id') as string;
 // DOM 요소
 const roomTitle = document.querySelector('#room-title') as HTMLElement;
 const roleDiv = document.querySelector('#my-role')!;
+let myRole = '';
+let members: { [key: string]: any } = {};
 
 // 채팅방 입장 로직
 if (roomId && roomTitle) {
@@ -69,6 +71,16 @@ startButton?.addEventListener('click', async () => {
     const roomInfo = await getRoomInfo(roomId);
     startGame(roomInfo.memberList);
     // switchPhase();
+    socket.on('message', (data: ChatMessage) => {
+        switch (data.msg.action) {
+            case 'start':
+                for (const member in members as any) {
+                    addUserToVoteUI(members[member]);
+                }
+                break;
+        }
+    });
+
     startButton.disabled = true;
 });
 
@@ -114,7 +126,7 @@ leaveBtn?.addEventListener('click', () => {
     leaveRoom();
     window.location.href = `/src/pages/chatlist-page.html?nickname=${encodeURIComponent(user_id)}`;
 });
-let myRole = '';
+// let myRole = '';
 // WebSocket 메시지 수신 처리
 socket.on('message', async (data: ChatMessage) => {
     console.log('받은 데이터', data.msg);
@@ -207,26 +219,57 @@ socket.on('members', (members: RoomMembers) => {
     }
 });
 
-// 추가 유저 UI - 유저가 들어올때마다 랜더링
+// 추가 유저 UI
 function addUserToVoteUI(user: RoomMember) {
-    console.log(user);
+    console.log('user:: ', user);
     const container = document.querySelector('#profiles');
     if (!container) return;
 
     // const existing = document.querySelector(`#user-${user.user_id}`);
     // if (existing) return; // 중복 방지
 
+    let profileImage = '/src/assets/player.svg';
+
+    if (user.nickName === user_id && myRole) {
+        if (myRole === '마피아') {
+            profileImage = '/src/assets/mafia.svg';
+        } else if (myRole === '경찰') {
+            profileImage = '/src/assets/police.svg';
+        } else if (myRole === '의사') {
+            profileImage = '/src/assets/doctor.svg';
+        } else if (myRole === '시민') {
+            profileImage = '/src/assets/citizen.svg';
+        }
+    } else {
+        profileImage = '/src/assets/player.svg';
+    }
+
+    // const profileImage = document.createElement('img');
+    // profileImage.dataset.userid = user.user_id;
+
     const div = document.createElement('div');
     div.dataset.userid = user.nickName;
     div.className = `
-        w-[180px] h-[100px]
+        w-[130px] h-[180px]
         flex flex-col items-center justify-center
-        bg-blue-100 hover:bg-blue-200 transition-colors
-        rounded-xl shadow cursor-pointer 
-
+        bg-gray-800 hover:bg-red-700 transition-colors
+        rounded-xl shadow cursor-pointer
+        p-2
     `;
+
     div.innerHTML = `
-        <div class="text-lg font-semibold ${user.killed ? 'text-red-500' : 'text-gray-800'}">${user.nickName}</div>
+    <div style="position: relative; width: 108px; height: 108px; margin-bottom: 0.25rem; margin-top: 0.5rem;"> 
+        <img
+            src="${profileImage}"
+            alt="유저 프로필"
+            class="w-[108px] h-[108px] object-cover rounded-full"
+        />
+        ${user.killed ? `<img src="/src/assets/vote.svg" alt="죽음 표시" style="position: absolute; top: 0; left: 0; width: 130px; height: 130px; pointer-events: none; opacity: 0.85;" />` : ''}
+        <div class="text-center text-lg mt-1 font-semibold ${
+            user.killed ? 'text-red-500' : 'text-gray-200'
+        }">
+            ${user.nickName}
+        </div>
     `;
 
     // 클릭 이벤트로 투표 및 마피아 기능

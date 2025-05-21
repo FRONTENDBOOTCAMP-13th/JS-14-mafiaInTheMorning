@@ -3,6 +3,15 @@ import '../style.css';
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
 
+// 행동 제어를 위한 함수
+let canAct = true;
+export function getCanAct() {
+    return canAct;
+}
+export function setCanAct(value: boolean) {
+    canAct = value;
+}
+
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 const increaseBtn = document.getElementById('plusbtn') as HTMLButtonElement;
 const decreaseBtn = document.getElementById('minusbtn') as HTMLButtonElement;
@@ -39,6 +48,7 @@ export function switchPhase(startPhase?: StartPhase): void {
     // 낮/밤 알림 업데이트
     if (currentPhase === 'day') {
         console.log('낮이 되었습니다☀️');
+        canAct = true;
     } else {
         console.log('밤이 되었습니다🌙');
     }

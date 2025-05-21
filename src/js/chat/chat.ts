@@ -20,7 +20,7 @@ import {
     lodResult,
 } from './liveordie';
 
-import { currentPhase, switchPhase } from '../time';
+import { currentPhase, getCanAct, setCanAct, switchPhase } from '../time';
 import { mafiaKill } from './kill';
 import { getPlayerList, setPlayerList } from '../lib/store';
 import { dayVote } from './vote';
@@ -211,15 +211,20 @@ function addUserToVoteUI(user: RoomMember) {
 
     // 클릭 이벤트로 투표 및 마피아 기능
     div.addEventListener('click', () => {
+        if (!getCanAct()) {
+            alert('이미 행동하셨습니다.');
+            return;
+        }
         console.log(`${user_id}클릭`, div.dataset.userid);
 
         const targetId = div.dataset.userid!;
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
             mafiaKill(user_id, targetId);
-        } else {
+        } else if (currentPhase === 'day') {
             dayVote(user_id, targetId);
         }
+        setCanAct(false);
     });
 
     container.appendChild(div);

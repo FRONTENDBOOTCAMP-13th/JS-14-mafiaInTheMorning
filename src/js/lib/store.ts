@@ -1,5 +1,5 @@
 // 마피아 게임의 플레이어 상태를 관리하는 스토어 모듈
-import type { LiveOrDiePlayer, RoomMember, RoomMembers } from './yongchat';
+import type { LiveOrDiePlayer, RoomMembers } from './yongchat';
 
 // 게임에 참여중인 모든 플레이어의 목록과 상태를 저장하는 객체
 let playerList: RoomMembers = {};

@@ -7,7 +7,6 @@ import {
     socket,
     sendMsg,
     type ChatMessage,
-    getRoomInfo,
 } from './lib/yongchat';
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -118,8 +117,6 @@ socket.on('message', (data: ChatMessage) => {
             break;
     }
 });
-
-socket.on('message', (data: ChatMessage) => {});
 
 // 타이머 실행 함수
 export function startTimer(): void {

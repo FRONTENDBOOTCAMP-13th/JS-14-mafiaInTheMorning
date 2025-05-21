@@ -29,8 +29,6 @@ import {
 } from '../time';
 import { mafiaKill } from './kill';
 
-import { getPlayerList, killPlayer, setPlayerList } from '../lib/store';
-
 import {
     getLiveOrDiePlayer,
     getLivePlayerCount,
@@ -44,7 +42,7 @@ import { dayVote } from './vote';
 const urlParams = new URLSearchParams(window.location.search);
 const roomId = urlParams.get('roomId')!;
 const user_id = urlParams.get('user_id') as string;
-
+let hostInfo = '';
 // DOM 요소
 const roomTitle = document.querySelector('#room-title') as HTMLElement;
 const roleDiv = document.querySelector('#my-role')!;
@@ -60,6 +58,8 @@ if (roomId && roomTitle) {
     };
 
     const result = await joinRoom(params);
+    // hostInfo = result.roomInfo.hostName;
+    localStorage.setItem('hostInfo', hostInfo);
     console.log('채팅방 참여함:', result);
 
     if (result.ok) {
@@ -167,6 +167,7 @@ socket.on('message', async (data: ChatMessage) => {
                     timerContainer.classList.add('flex');
                 }
                 switchPhase('night');
+                // 밤이 시작되면 채팅 비활성화 (마피아는 예외)
             }
 
             const roomInfo = await getRoomInfo(roomId);
@@ -221,26 +222,33 @@ socket.on('message', async (data: ChatMessage) => {
 
             break;
         // 아직 구현 전
-        case 'kill': {
-            const { targetId } = data.msg as { targetId: string; from: string };
-            console.log(`${targetId}이(가) 죽었습니다.`);
+        case 'kill':
+            {
+                const { targetId } = data.msg as {
+                    targetId: string;
+                    from: string;
+                };
+                console.log(`${targetId}이(가) 죽었습니다.`);
 
-            // playerList에서 해당 유저 상태 업데이트
-            const updatedList = getPlayerList();
-            if (updatedList[targetId]) {
-                updatedList[targetId].killed = true;
-                setPlayerList(updatedList);
-            }
+                // playerList에서 해당 유저 상태 업데이트
+                const updatedList = getPlayerList();
+                if (updatedList[targetId]) {
+                    updatedList[targetId].killed = true;
+                    setPlayerList(updatedList);
+                }
 
-            // UI 랜더링
-            const container = document.querySelector('#profiles');
-            if (container) {
-                container.innerHTML = ''; // 기존 유저 UI 삭제
-                for (const playerId in updatedList) {
-                    addUserToVoteUI(updatedList[playerId]); // 유저 업데이트된 UI 함수를 작성하면 됨
+                // UI 랜더링
+                const container = document.querySelector('#profiles');
+                if (container) {
+                    container.innerHTML = ''; // 기존 유저 UI 삭제
+                    for (const playerId in updatedList) {
+                        addUserToVoteUI(updatedList[playerId]); // 유저 업데이트된 UI 함수를 작성하면 됨
+                    }
                 }
             }
-
+            break;
+        case 'phaseShift': {
+            console.log(`${data.msg.phase}이 되었습니다.`);
             break;
         }
     }

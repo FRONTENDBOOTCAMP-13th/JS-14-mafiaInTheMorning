@@ -179,7 +179,7 @@ socket.on('message', async (data: ChatMessage) => {
                 } else {
                     // 살리기
                     const p = document.createElement('p');
-                    p.innerText = `${target}이 죽지 않았습니다.`;
+                    p.innerText = `${target}님이 죽지 않았습니다.`;
                     chatArea?.appendChild(p);
 
                     lodArr.length = 0;

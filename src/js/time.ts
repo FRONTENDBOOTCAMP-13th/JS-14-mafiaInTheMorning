@@ -4,6 +4,15 @@ import { showText } from './chat/chatting';
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
 
+// 행동 제어를 위한 함수
+let canAct = true;
+export function getCanAct() {
+    return canAct;
+}
+export function setCanAct(value: boolean) {
+    canAct = value;
+}
+
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 
 export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
@@ -33,8 +42,10 @@ export function switchPhase(startPhase?: StartPhase): void {
     let phaseMsg = '';
     if (currentPhase === 'day') {
         phaseMsg = '낮이 되었습니다☀️';
+      canAct = true;
     } else if (currentPhase === 'night') {
         phaseMsg = '밤이 되었습니다🌙';
+      canAct = true;
     }
     // 채팅창에 시스템 메시지 출력
     showText({

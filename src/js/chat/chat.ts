@@ -10,7 +10,7 @@ import {
     type RoomMembers,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
-import { showText, msgInput, sendBtn, chat } from './chatting';
+import { showText, msgInput, sendBtn, chat, chatArea } from './chatting';
 import {
     lodHide,
     lodShow,
@@ -22,7 +22,12 @@ import {
 
 import { currentPhase, getCanAct, setCanAct, switchPhase } from '../time';
 import { mafiaKill } from './kill';
-import { getPlayerList, setPlayerList } from '../lib/store';
+import {
+    getLiveOrDiePlayer,
+    getLivePlayerCount,
+    getPlayerList,
+    setPlayerList,
+} from '../lib/store';
 import { dayVote } from './vote';
 
 // URL 파라미터 추출
@@ -160,9 +165,26 @@ socket.on('message', async (data: ChatMessage) => {
         case 'vote':
             break;
         case 'liveordie':
+            let target = getLiveOrDiePlayer().nickName;
             lodChoices(data.msg, lodArr);
             console.log(lodArr);
-            trueCnt = lodResult(lodArr, trueCnt);
+            console.log(lodArr.length);
+            let livePlayer = getLivePlayerCount();
+            if (livePlayer == lodArr.length) {
+                trueCnt = lodResult(lodArr, trueCnt);
+                if (trueCnt > Math.floor(livePlayer / 2)) {
+                    // 죽이기
+                    mafiaKill('시민들(이)', target);
+                    lodArr.length = 0;
+                } else {
+                    // 살리기
+                    const p = document.createElement('p');
+                    p.innerText = `${target}님이 죽지 않았습니다.`;
+                    chatArea?.appendChild(p);
+
+                    lodArr.length = 0;
+                }
+            }
             console.log(trueCnt);
 
             break;

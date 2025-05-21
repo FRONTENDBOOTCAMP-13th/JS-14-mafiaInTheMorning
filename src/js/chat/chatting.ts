@@ -21,8 +21,12 @@ switchPhase('day');
 // 수신
 export function showText(data: Chat) {
     // if (gameDay === 'morning') {
-        const p = document.createElement('p');
-        p.innerText = `${data.nickname} :  ${data.msg}`;
-        chatArea?.appendChild(p);
+    const p = document.createElement('p');
+    p.innerText = `${data.nickname} :  ${data.msg}`;
+    chatArea?.appendChild(p);
+
+    if (chatArea) {
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
     // }
 }

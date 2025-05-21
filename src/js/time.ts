@@ -1,4 +1,5 @@
 import '../style.css';
+import { showText } from './chat/chatting';
 
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
@@ -13,31 +14,23 @@ export function setCanAct(value: boolean) {
 }
 
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
-const increaseBtn = document.getElementById('plusbtn') as HTMLButtonElement;
-const decreaseBtn = document.getElementById('minusbtn') as HTMLButtonElement;
 
 export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
 export let time: number; // 남은 시간 (초)
 export let timerInterval: number;
 
-// ✅ phase를 인자로 받아서 시작을 강제할 수 있게 수정
+// phase를 인자로 받아서 시작을 강제할 수 있게 수정
 type StartPhase = 'day' | 'night';
 
 // 낮/밤 전환 함수
 export function switchPhase(startPhase?: StartPhase): void {
-    const timerContainer = document.getElementById('timer-container');
-    if (timerContainer) {
-        timerContainer.classList.remove('hidden');
-        timerContainer.classList.add('flex');
-    }
-
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
 
     // 밤/낮 상태 전환
     if (startPhase) {
-        // ✅ 서버에서 시작 phase가 지정되었을 경우 강제 설정
+        // 서버에서 시작 phase가 지정되었을 경우 강제 설정
         currentPhase = startPhase;
     } else {
         currentPhase = currentPhase === 'day' ? 'night' : 'day';
@@ -46,24 +39,20 @@ export function switchPhase(startPhase?: StartPhase): void {
     time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
 
     // 낮/밤 알림 업데이트
+    let phaseMsg = '';
     if (currentPhase === 'day') {
-        console.log('낮이 되었습니다☀️');
-        canAct = true;
-    } else {
-        console.log('밤이 되었습니다🌙');
-        canAct = true;
+        phaseMsg = '낮이 되었습니다☀️';
+      canAct = true;
+    } else if (currentPhase === 'night') {
+        phaseMsg = '밤이 되었습니다🌙';
+      canAct = true;
     }
-
-    // 낮이면 버튼 활성화, 밤이면 비활성화
-    if (currentPhase === 'day') {
-        // HTMLButtonElement 속성 disabled 사용
-        // 컨트롤이 비활성화되었는지 여부를 나타내는 부울 값, 클릭을 허용하지 않음.
-        increaseBtn.disabled = false;
-        decreaseBtn.disabled = false;
-    } else {
-        increaseBtn.disabled = true;
-        decreaseBtn.disabled = true;
-    }
+    // 채팅창에 시스템 메시지 출력
+    showText({
+        action: 'chat',
+        nickname: '사회자',
+        msg: phaseMsg,
+    });
 
     startTimer(); // 새로운 타이머 시작
 }
@@ -90,25 +79,14 @@ export function startTimer(): void {
     }, 1000); // 1초마다
 }
 
-// +15초 버튼 클릭 이벤트(낮에만 발생)
-increaseBtn.addEventListener('click', () => {
-    if (currentPhase === 'day') {
-        time += 15;
-        timeRemaining.textContent = time.toString();
-    }
-});
-
-// -15초 버튼 클릭 이벤트(낮에만 & 15초 이상)
-decreaseBtn.addEventListener('click', () => {
-    if (currentPhase === 'day' && time >= 15) {
-        time -= 15;
-        timeRemaining.textContent = time.toString();
-    }
-});
-
 // 지목 투표 시작 (낮 끝난 뒤 15초)
 export function startVoteSequence(): void {
     console.log('지목 투표 시작 (15초)');
+    showText({
+        action: 'chat',
+        nickname: '사회자',
+        msg: '지목 투표가 시작되었습니다. (15초)',
+    });
     time = 15;
     timeRemaining.textContent = time.toString();
 
@@ -126,6 +104,11 @@ export function startVoteSequence(): void {
 // 최후 변론 (10초)
 export function startDefensePhase(): void {
     console.log('최후 변론 (10초)');
+    showText({
+        action: 'chat',
+        nickname: '사회자',
+        msg: '최후의 변론을 시작하세요. (10초)',
+    });
     time = 10;
     timeRemaining.textContent = time.toString();
 
@@ -143,6 +126,11 @@ export function startDefensePhase(): void {
 // 찬반 투표 (15초)
 export function finalVotePhase(): void {
     console.log('최종 찬반 투표 시작 (15초)');
+    showText({
+        action: 'chat',
+        nickname: '사회자',
+        msg: '최종 찬반 투표가 시작되었습니다. (15초)',
+    });
     time = 15;
     timeRemaining.textContent = time.toString();
 

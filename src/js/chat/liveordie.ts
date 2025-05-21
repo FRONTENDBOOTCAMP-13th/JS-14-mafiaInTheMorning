@@ -4,7 +4,7 @@ import { type LiveOrDie, sendMsg, socket } from '../lib/yongchat';
 export const liveOrDieDiv = document.querySelector('#live-or-die');
 export const lodQ = document.querySelector('#wantKill') as any;
 const votePlayerElem = document.querySelector('#votePlayer') as HTMLElement;
-export const lodArr: boolean[] = [];
+export let lodArr: boolean[] = [];
 
 export function lodHide() {
     if (liveOrDieDiv) liveOrDieDiv.classList.add('hidden');
@@ -41,6 +41,8 @@ export function lodResult(arr: Array<boolean>, cnt: number) {
     }
     return cnt;
 }
+
+// 투표 끝나는 시점
 
 // WebSocket 메시지 수신 처리
 socket.on('message', (data: LiveOrDie) => {

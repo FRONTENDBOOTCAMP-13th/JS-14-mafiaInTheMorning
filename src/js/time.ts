@@ -1,6 +1,7 @@
 // import { resolveConfig } from 'vite';
 import '../style.css';
 import { showText } from './chat/chatting';
+import { resetMafiaKill } from './chat/kill';
 import {
     type PhaseShift,
     socket,
@@ -101,6 +102,7 @@ socket.on('message', (data: ChatMessage) => {
             if (currentPhase === 'day') {
                 phaseMsg = '낮이 되었습니다☀️';
                 canAct = true;
+                resetMafiaKill();
             } else if (currentPhase === 'night') {
                 phaseMsg = '밤이 되었습니다🌙';
                 canAct = true;

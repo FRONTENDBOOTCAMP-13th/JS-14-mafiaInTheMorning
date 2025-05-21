@@ -123,6 +123,12 @@ socket.on('message', async (data: ChatMessage) => {
             myRole = getMyRole(data.msg.roles, user_id) || '';
             if (myRole) {
                 roleDiv.innerHTML = myRole;
+                const timerContainer =
+                    document.getElementById('timer-container');
+                if (timerContainer) {
+                    timerContainer.classList.remove('hidden');
+                    timerContainer.classList.add('flex');
+                }
                 switchPhase('night');
             }
 

@@ -8,8 +8,14 @@
         <script type="module" src="/src/style.css"></script>
     </head>
     <body
-        class="bg-cover bg-center h-screen"
-        style="background-image: url('/src/assets/main.jpg')"
+        class="bg-center h-screen"
+        style="
+            background-image: url('/src/assets/main.jpg');
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: black; /* 이 부분 추가 */
+        "
     >
         <!-- Start 버튼 -->
         <button

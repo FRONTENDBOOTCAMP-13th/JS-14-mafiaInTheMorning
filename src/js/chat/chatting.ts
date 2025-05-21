@@ -18,7 +18,7 @@ export function chat(id: string) {
 }
 
 // Phase 초기 설정
-switchPhase('day');
+switchPhase('night');
 
 // 수신
 export function showText(data: Chat) {

@@ -58,16 +58,3 @@ export function showText(data: Chat) {
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 }
-
-// export function setChatEnabled(enabled: boolean) {
-//     msgInput.disabled = !enabled;
-//     sendBtn.disabled = !enabled;
-// }
-
-// export function onPhaseChange(phase: string) {
-//     if (phase === 'night') {
-//         setChatEnabled(myRole === '마피아');
-//     } else if (phase === 'day') {
-//         setChatEnabled(true);
-//     }
-// }

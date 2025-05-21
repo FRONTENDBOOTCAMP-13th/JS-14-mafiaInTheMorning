@@ -9,9 +9,6 @@ import {
     getRoomInfo,
 } from './lib/yongchat';
 
-// const hostInfo = getRoomInfo;
-const hostInfo = localStorage.getItem('hostInfo');
-
 const urlParams = new URLSearchParams(window.location.search);
 const user_id = urlParams.get('user_id') as string;
 
@@ -50,10 +47,14 @@ type StartPhase = 'day' | 'night';
 
 // 낮/밤 전환 함수
 export function switchPhase(startPhase?: StartPhase): void {
+    const hostInfo = localStorage.getItem('hostInfo');
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
+
     console.log('clearInterval 동작');
+    console.log(hostInfo, user_id);
+
     if (hostInfo !== user_id) return;
     console.log('방장 조건 통과');
 
@@ -115,6 +116,9 @@ socket.on('message', (data: ChatMessage) => {
             break;
     }
 });
+
+socket.on('message', (data: ChatMessage) => {});
+
 // 타이머 실행 함수
 export function startTimer(): void {
     // 1초마다 실행 , setInterval 사용

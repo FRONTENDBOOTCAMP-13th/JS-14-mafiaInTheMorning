@@ -58,7 +58,7 @@ if (roomId && roomTitle) {
     };
 
     const result = await joinRoom(params);
-    // hostInfo = result.roomInfo.hostName;
+    hostInfo = result.roomInfo.hostName;
     localStorage.setItem('hostInfo', hostInfo);
     console.log('채팅방 참여함:', result);
 
@@ -106,7 +106,12 @@ sendBtn?.addEventListener('click', () => {
         alert('당신은 사망하셨습니다.');
         return;
     }
-    chat(user_id);
+    if (currentPhase === 'night' && myRole === '마피아') {
+        chat(user_id);
+    } else if (currentPhase === 'day') {
+        chat(user_id);
+    }
+
     msgInput.value = '';
     msgInput.focus();
 });
@@ -120,7 +125,14 @@ msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
             alert('당신은 사망하셨습니다.');
             return;
         }
-        chat(user_id);
+        console.log('챗 보내기', currentPhase, myRole);
+        if (currentPhase === 'night' && myRole === '마피아') {
+            console.log('night chat');
+            chat(user_id);
+        } else if (currentPhase === 'day') {
+            console.log('day chat');
+            chat(user_id);
+        }
         msgInput.value = '';
         msgInput.focus();
     }
@@ -192,7 +204,10 @@ socket.on('message', async (data: ChatMessage) => {
         }
 
         case 'chat':
-            showText(data.msg);
+            if (currentPhase === 'day') showText(data.msg);
+            else if (currentPhase === 'night' && myRole === '마피아') {
+                showText(data.msg);
+            }
             break;
 
         case 'vote':

@@ -51,6 +51,7 @@ export function switchPhase(startPhase?: StartPhase): void {
         canAct = true;
     } else {
         console.log('밤이 되었습니다🌙');
+        canAct = true;
     }
 
     // 낮이면 버튼 활성화, 밤이면 비활성화

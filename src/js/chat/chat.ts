@@ -136,6 +136,7 @@ socket.on('message', async (data: ChatMessage) => {
                 if (playerRole) {
                     player.role = playerRole.role;
                     player.vote = 0;
+                    player.killed = false; // 생존여부
                 }
             }
 
@@ -161,11 +162,24 @@ socket.on('message', async (data: ChatMessage) => {
             break;
         // 아직 구현 전
         case 'kill': {
-            const { targetId } = data.msg as {
-                targetId: string;
-                from: string;
-            };
+            const { targetId } = data.msg as { targetId: string; from: string };
             console.log(`${targetId}이(가) 죽었습니다.`);
+
+            // playerList에서 해당 유저 상태 업데이트
+            const updatedList = getPlayerList();
+            if (updatedList[targetId]) {
+                updatedList[targetId].killed = true;
+                setPlayerList(updatedList);
+            }
+
+            // UI 랜더링
+            const container = document.querySelector('#profiles');
+            if (container) {
+                container.innerHTML = ''; // 기존 유저 UI 삭제
+                for (const playerId in updatedList) {
+                    addUserToVoteUI(updatedList[playerId]); // 유저 업데이트된 UI 함수를 작성하면 됨
+                }
+            }
 
             break;
         }
@@ -206,7 +220,7 @@ function addUserToVoteUI(user: RoomMember) {
 
     `;
     div.innerHTML = `
-        <div class="text-lg font-semibold text-gray-800">${user.nickName}</div>
+        <div class="text-lg font-semibold ${user.killed ? 'text-red-500' : 'text-gray-800'}">${user.nickName}</div>
     `;
 
     // 클릭 이벤트로 투표 및 마피아 기능
@@ -218,9 +232,21 @@ function addUserToVoteUI(user: RoomMember) {
         console.log(`${user_id}클릭`, div.dataset.userid);
 
         const targetId = div.dataset.userid!;
+        // 밤에 마피아만 행동 가능
+        if (currentPhase === 'night' && myRole !== '마피아') {
+            alert('밤에는 행동할 수 없습니다.');
+            return;
+        }
+
+        // 마피아 자기 자신 선택 금지
+        if (myRole === '마피아' && div.dataset.userid === user_id) {
+            alert('자기 자신은 선택할 수 없습니다.');
+            return;
+        }
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
             mafiaKill(user_id, targetId);
+            console.log('playerList', getPlayerList());
         } else if (currentPhase === 'day') {
             dayVote(user_id, targetId);
         }

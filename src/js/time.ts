@@ -1,6 +1,16 @@
+// import { resolveConfig } from 'vite';
 import '../style.css';
 import { showText } from './chat/chatting';
-import { resetMafiaKill } from './chat/kill';
+import {
+    type PhaseShift,
+    socket,
+    sendMsg,
+    type ChatMessage,
+    getRoomInfo,
+} from './lib/yongchat';
+
+const urlParams = new URLSearchParams(window.location.search);
+const user_id = urlParams.get('user_id') as string;
 
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
@@ -37,39 +47,77 @@ type StartPhase = 'day' | 'night';
 
 // 낮/밤 전환 함수
 export function switchPhase(startPhase?: StartPhase): void {
+    const hostInfo = localStorage.getItem('hostInfo');
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
 
-    // 밤/낮 상태 전환
+    console.log('clearInterval 동작');
+    console.log(hostInfo, user_id);
+
+    if (hostInfo !== user_id) return;
+    console.log('방장 조건 통과');
+
     if (startPhase) {
         // 서버에서 시작 phase가 지정되었을 경우 강제 설정
         currentPhase = startPhase;
+
+        const msg: PhaseShift = {
+            action: 'phaseShift',
+            phase: currentPhase,
+        };
+        sendMsg(msg);
+        console.log('startPhase');
+        // startPhase = undefined;
     } else {
-        currentPhase = currentPhase === 'day' ? 'night' : 'day';
+        if (currentPhase === 'day') {
+            const msg: PhaseShift = {
+                action: 'phaseShift',
+                phase: 'night',
+            };
+            sendMsg(msg);
+            console.log('currentPhaseDay');
+        } else {
+            const msg: PhaseShift = {
+                action: 'phaseShift',
+                phase: 'day',
+            };
+            sendMsg(msg);
+            console.log('currentPhaseNight');
+        }
     }
-
-    time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
-
-    // 낮/밤 알림 업데이트
-    let phaseMsg = '';
-    if (currentPhase === 'day') {
-        phaseMsg = '낮이 되었습니다☀️';
-        canAct = true;
-        resetMafiaKill();
-    } else if (currentPhase === 'night') {
-        phaseMsg = '밤이 되었습니다🌙';
-        canAct = true;
-    }
-    // 채팅창에 시스템 메시지 출력
-    showText({
-        action: 'chat',
-        nickname: '사회자',
-        msg: phaseMsg,
-    });
-
-    startTimer(); // 새로운 타이머 시작
 }
+
+socket.on('message', (data: ChatMessage) => {
+    console.log('socket PhaseShift on');
+    switch (data.msg.action) {
+        case 'phaseShift':
+            currentPhase = data.msg.phase;
+
+            time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
+
+            // 낮/밤 알림 업데이트
+            let phaseMsg = '';
+            if (currentPhase === 'day') {
+                phaseMsg = '낮이 되었습니다☀️';
+                canAct = true;
+            } else if (currentPhase === 'night') {
+                phaseMsg = '밤이 되었습니다🌙';
+                canAct = true;
+            }
+            // 채팅창에 시스템 메시지 출력
+            showText({
+                action: 'chat',
+                nickname: '사회자',
+                msg: phaseMsg,
+            });
+
+            startTimer(); // 새로운 타이머 시작
+            break;
+    }
+});
+
+socket.on('message', (data: ChatMessage) => {});
 
 // 타이머 실행 함수
 export function startTimer(): void {

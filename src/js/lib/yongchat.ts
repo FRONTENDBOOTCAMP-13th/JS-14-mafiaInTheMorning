@@ -6,7 +6,7 @@ import { setRooms } from '../room/roomList';
  */
 export interface ChatMessage {
     nickName: string;
-    msg: StartGame | Chat | LiveOrDie | Vote | Kill | JoinRoom;
+    msg: StartGame | Chat | LiveOrDie | Vote | Kill | JoinRoom | PhaseShift;
 }
 
 /**
@@ -136,6 +136,11 @@ export interface LiveOrDie {
     choice: boolean;
 }
 
+export interface PhaseShift {
+    action: 'phaseShift';
+    phase: 'day' | 'night';
+}
+
 // npm i @types/socket.io-client 필요
 export const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');
 
@@ -243,7 +248,9 @@ export function leaveRoom(): void {
  * @description 사용자가 입력한 메시지를 현재 참여 중인 채팅방에 전송합니다.
  * 빈 문자열이나 공백만 있는 메시지는 전송되지 않습니다.
  */
-export function sendMsg(msg: StartGame | Vote | Kill | LiveOrDie | Chat): void {
+export function sendMsg(
+    msg: StartGame | Vote | Kill | LiveOrDie | Chat | PhaseShift,
+): void {
     socket.emit('message', msg);
 }
 

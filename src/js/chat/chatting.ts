@@ -2,7 +2,7 @@ import { type Chat, sendMsg } from '../lib/yongchat';
 import { switchPhase } from '../time';
 
 export let msgInput = document.querySelector('#msg-input') as HTMLInputElement;
-export const sendBtn = document.querySelector('#send-btn');
+export const sendBtn = document.querySelector('#send-btn') as any;
 export const chatArea = document.querySelector('#chat-area');
 
 // 서버 발신
@@ -23,6 +23,8 @@ switchPhase('night');
 // 수신
 export function showText(data: Chat) {
     const p = document.createElement('p');
+    p.innerText = `${data.nickname} :  ${data.msg}`;
+    chatArea?.appendChild(p);
     p.innerText = data.msg;
 
     const isMine = data.nickname === msgInput?.dataset.userId;
@@ -51,7 +53,6 @@ export function showText(data: Chat) {
     wrapper.appendChild(p);
 
     chatArea?.appendChild(wrapper);
-
     // 스크롤 맨 아래로
     if (chatArea) {
         chatArea.scrollTop = chatArea.scrollHeight;

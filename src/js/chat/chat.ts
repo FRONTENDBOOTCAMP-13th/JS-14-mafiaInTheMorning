@@ -193,7 +193,7 @@ socket.on('members', (members: RoomMembers) => {
     }
 });
 
-// 추가 유저 UI
+// 추가 유저 UI - 유저가 들어올때마다 랜더링
 function addUserToVoteUI(user: RoomMember) {
     console.log(user);
     const container = document.querySelector('#profiles');

@@ -36,7 +36,6 @@ import {
     setPlayerList,
 } from '../lib/store';
 
-
 import { dayVote } from './vote';
 
 // URL 파라미터 추출
@@ -383,6 +382,7 @@ function addUserToVoteUI(user: RoomMember) {
                 alert('지금은 지목 투표 시간이 아닙니다.');
                 return;
             }
+            alert(`당신은 ${targetId}님에게 투표하셨습니다.`);
             dayVote(user_id, targetId);
         }
 

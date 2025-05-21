@@ -1,5 +1,6 @@
 import '../style.css';
 import { showText } from './chat/chatting';
+import { resetMafiaKill } from './chat/kill';
 
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
@@ -13,6 +14,18 @@ export function setCanAct(value: boolean) {
     canAct = value;
 }
 
+// 지목 투표 시간에 투표를 진행하기 위해서 변수 선언
+let isVotePhase = false;
+
+export function setVotePhase(value: boolean) {
+    isVotePhase = value;
+}
+
+export function getVotePhase(): boolean {
+    return isVotePhase;
+}
+
+// export function  getMafia
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 
 export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
@@ -42,10 +55,11 @@ export function switchPhase(startPhase?: StartPhase): void {
     let phaseMsg = '';
     if (currentPhase === 'day') {
         phaseMsg = '낮이 되었습니다☀️';
-      canAct = true;
+        canAct = true;
+        resetMafiaKill();
     } else if (currentPhase === 'night') {
         phaseMsg = '밤이 되었습니다🌙';
-      canAct = true;
+        canAct = true;
     }
     // 채팅창에 시스템 메시지 출력
     showText({
@@ -87,6 +101,7 @@ export function startVoteSequence(): void {
         nickname: '사회자',
         msg: '지목 투표가 시작되었습니다. (15초)',
     });
+    setVotePhase(true);
     time = 15;
     timeRemaining.textContent = time.toString();
 
@@ -96,6 +111,7 @@ export function startVoteSequence(): void {
 
         if (time <= 0) {
             clearInterval(voteInterval);
+            setVotePhase(false);
             startDefensePhase(); // 최후 변론으로
         }
     }, 1000);

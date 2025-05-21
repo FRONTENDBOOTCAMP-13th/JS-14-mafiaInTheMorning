@@ -20,7 +20,13 @@ import {
     lodResult,
 } from './liveordie';
 
-import { currentPhase, getCanAct, setCanAct, switchPhase } from '../time';
+import {
+    currentPhase,
+    getCanAct,
+    getVotePhase,
+    setCanAct,
+    switchPhase,
+} from '../time';
 import { mafiaKill } from './kill';
 import { getPlayerList, setPlayerList } from '../lib/store';
 import { dayVote } from './vote';
@@ -228,7 +234,6 @@ function addUserToVoteUI(user: RoomMember) {
     div.innerHTML = `
         <div class="text-lg font-semibold ${user.killed ? 'text-red-500' : 'text-gray-800'}">${user.nickName}</div>
     `;
-
     // 클릭 이벤트로 투표 및 마피아 기능
     div.addEventListener('click', () => {
         if (!getCanAct()) {
@@ -244,18 +249,23 @@ function addUserToVoteUI(user: RoomMember) {
             return;
         }
 
-        // 마피아 자기 자신 선택 금지
-        if (myRole === '마피아' && div.dataset.userid === user_id) {
-            alert('자기 자신은 선택할 수 없습니다.');
-            return;
-        }
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
+            // 마피아 자기 자신 선택 금지
+            if (myRole === '마피아' && div.dataset.userid === user_id) {
+                alert('자기 자신은 선택할 수 없습니다.');
+                return;
+            }
             mafiaKill(user_id, targetId);
-            console.log('playerList', getPlayerList());
         } else if (currentPhase === 'day') {
+            // 낮일 때 지목 투표 시간에만 허용
+            if (!getVotePhase()) {
+                alert('지금은 지목 투표 시간이 아닙니다.');
+                return;
+            }
             dayVote(user_id, targetId);
         }
+
         setCanAct(false);
     });
 

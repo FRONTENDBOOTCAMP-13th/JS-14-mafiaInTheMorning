@@ -10,7 +10,7 @@ import {
     type RoomMembers,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
-import { showText, msgInput, sendBtn, chat } from './chatting';
+import { showText, msgInput, sendBtn, chat, chatArea } from './chatting';
 import {
     lodHide,
     lodShow,
@@ -178,7 +178,10 @@ socket.on('message', async (data: ChatMessage) => {
                     lodArr.length = 0;
                 } else {
                     // 살리기
-                    console.log(`${target}이 죽지 않았습니다.`);
+                    const p = document.createElement('p');
+                    p.innerText = `${target}이 죽지 않았습니다.`;
+                    chatArea?.appendChild(p);
+
                     lodArr.length = 0;
                 }
             }

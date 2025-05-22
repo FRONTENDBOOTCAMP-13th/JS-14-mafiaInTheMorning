@@ -24,6 +24,8 @@ import {
     lodChoices,
     lodArr,
     lodResult,
+    lodClose,
+    liveOrDieDiv,
 } from './liveordie';
 
 import {
@@ -33,12 +35,13 @@ import {
     setCanAct,
     switchPhase,
 } from '../time';
-import { mafiaKill } from './kill';
+import { isMafiaKilled, mafiaKill } from './kill';
 
 import {
     getLiveOrDiePlayer,
     getLivePlayerCount,
     getPlayerList,
+    killPlayer,
     setPlayerList,
 } from '../lib/store';
 
@@ -142,6 +145,9 @@ msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
 let choice = true;
 let trueCnt = 0;
 document.querySelector('#lod-btn')?.addEventListener('click', () => {
+    if (currentPhase === 'night') {
+        alert('지금은 찬반투표 시간이 아닙니다.');
+    }
     lodShow();
 });
 document.querySelector('#kill')?.addEventListener('click', () => {
@@ -165,6 +171,11 @@ document.querySelector('#save')?.addEventListener('click', () => {
     lodHide();
     choice = false;
     lodChoice(choice);
+});
+
+// live or die 창 닫기
+lodClose?.addEventListener('click', () => {
+    liveOrDieDiv?.classList.add('hidden');
 });
 
 // 나가기 버튼 클릭
@@ -234,27 +245,35 @@ socket.on('message', async (data: ChatMessage) => {
         case 'vote':
             break;
         case 'liveordie':
-            let target = getLiveOrDiePlayer().nickName;
+            let target = getLiveOrDiePlayer().user_id;
             lodChoices(data.msg, lodArr);
-            console.log(lodArr);
-            console.log(lodArr.length);
+            console.log('투표들', lodArr);
+            console.log('투표수', lodArr.length);
             let livePlayer = getLivePlayerCount();
             if (livePlayer == lodArr.length) {
                 trueCnt = lodResult(lodArr, trueCnt);
+                console.log('찬성수', trueCnt);
                 if (trueCnt > Math.floor(livePlayer / 2)) {
                     // 죽이기
-                    mafiaKill('시민들(이)', target);
+
+                    killPlayer(target);
+                    showText({
+                        action: 'chat',
+                        nickname: '사회자',
+                        msg: ` ${target}님이 죽었습니다.`,
+                    });
                     lodArr.length = 0;
                 } else {
                     // 살리기
-                    const p = document.createElement('p');
-                    p.innerText = `${target}님이 죽지 않았습니다.`;
-                    chatArea?.appendChild(p);
+                    showText({
+                        action: 'chat',
+                        nickname: '사회자',
+                        msg: ` ${target}님이 살았습니다.`,
+                    });
 
                     lodArr.length = 0;
                 }
             }
-            console.log(trueCnt);
 
             break;
         // 아직 구현 전

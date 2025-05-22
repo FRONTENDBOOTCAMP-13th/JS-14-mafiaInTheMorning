@@ -1,6 +1,8 @@
 import { killPlayer } from '../lib/store';
 import { sendMsg, socket, type ChatMessage } from '../lib/yongchat';
+import { getPlayerList, setPlayerList } from '../lib/store';
 import { showText } from './chatting';
+import { addUserToVoteUI } from './chat';
 export let isMafiaKilled = false;
 
 export function mafiaKill(user_id: string, targetId: string) {
@@ -46,10 +48,29 @@ socket.on('message', (packet: ChatMessage) => {
             msg: `마피아가 뒷통수를 내리쳐 ${data.targetId} 유저를 죽였습니다.`,
         });
     } else if (packet.msg.action === 'citizenkill') {
+        const { targetId } = packet.msg as {
+            targetId: string;
+        };
+        // playerList에서 해당 유저 상태 업데이트
+        const updatedList = getPlayerList();
+        if (updatedList[targetId]) {
+            updatedList[targetId].killed = true;
+            setPlayerList(updatedList);
+        }
         console.log(packet);
+
         const data = packet.msg;
-        // 유저에게 알림
+
         killPlayer(data.targetId);
+        // UI 랜더링
+        const container = document.querySelector('#profiles');
+        if (container) {
+            container.innerHTML = ''; // 기존 유저 UI 삭제
+            const updatedList = getPlayerList();
+            for (const playerId in updatedList) {
+                addUserToVoteUI(updatedList[playerId]); // 유저 업데이트된 UI 함수를 작성하면 됨
+            }
+        }
         showText({
             action: 'chat',
             nickname: '사회자',

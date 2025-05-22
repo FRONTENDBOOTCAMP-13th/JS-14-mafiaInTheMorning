@@ -1,10 +1,4 @@
 import '../../style.css';
-// import playerImage from '../../../src/assets/player9.png';
-// import mafiaImage from '../../../src/assets/mafia.svg';
-// import doctorImage from '../../../src/assets/doctor.svg';
-// import policeImage from '../../../src/assets/police.svg';
-// import citizenImage from '../../../src/assets/citizen.svg';
-// import voteImage from '../../../src/assets/vote.svg';
 import {
     getRoomInfo,
     joinRoom,
@@ -93,16 +87,10 @@ const startButton = document.querySelector('#start-game') as HTMLButtonElement;
 startButton?.addEventListener('click', async () => {
     const roomInfo = await getRoomInfo(roomId);
     startGame(roomInfo.memberList);
-    // switchPhase();
-    socket.on('message', (data: ChatMessage) => {
-        switch (data.msg.action) {
-            case 'start':
-                for (const member in members as any) {
-                    addUserToVoteUI(members[member]);
-                }
-                break;
-        }
-    });
+
+    for (const member in members as any) {
+        addUserToVoteUI(members[member]);
+    }
 });
 
 // 메시지 전송 - 버튼 클릭
@@ -191,6 +179,7 @@ socket.on('message', async (data: ChatMessage) => {
     switch (data.msg.action) {
         case 'start': {
             myRole = getMyRole(data.msg.roles, user_id) || '';
+            console.log('start myRole', myRole);
             if (myRole) {
                 roleDiv.innerHTML = myRole;
                 const timerContainer =
@@ -320,7 +309,7 @@ socket.on('members', (members: RoomMembers) => {
 });
 
 // 추가 유저 UI
-function addUserToVoteUI(user: RoomMember) {
+export function addUserToVoteUI(user: RoomMember) {
     console.log('user:: ', user);
     const container = document.querySelector('#profiles');
     if (!container) return;
@@ -343,9 +332,6 @@ function addUserToVoteUI(user: RoomMember) {
     } else {
         profileImage = '/player9.png';
     }
-
-    // const profileImage = document.createElement('img');
-    // profileImage.dataset.userid = user.user_id;
 
     const div = document.createElement('div');
     div.dataset.userid = user.nickName;
@@ -422,6 +408,8 @@ function addUserToVoteUI(user: RoomMember) {
             alert('밤에는 행동할 수 없습니다.');
             return;
         }
+
+        console.log('롤', myRole);
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
             // 마피아 자기 자신 선택 금지

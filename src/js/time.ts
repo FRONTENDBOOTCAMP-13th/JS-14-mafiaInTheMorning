@@ -8,6 +8,7 @@ import {
     sendMsg,
     type ChatMessage,
 } from './lib/yongchat';
+import { handleVoteResult } from './vote';
 
 const urlParams = new URLSearchParams(window.location.search);
 const user_id = urlParams.get('user_id') as string;
@@ -94,7 +95,7 @@ socket.on('message', (data: ChatMessage) => {
         case 'phaseShift':
             currentPhase = data.msg.phase;
 
-            time = currentPhase === 'day' ? 10 : 10; // 낮: 120초, 밤: 60초
+            time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
 
             // 낮/밤 알림 업데이트
             let phaseMsg = '';
@@ -159,6 +160,7 @@ export function startVoteSequence(): void {
         if (time <= 0) {
             clearInterval(voteInterval);
             setVotePhase(false);
+            handleVoteResult();
             startDefensePhase(); // 최후 변론으로
         }
     }, 1000);

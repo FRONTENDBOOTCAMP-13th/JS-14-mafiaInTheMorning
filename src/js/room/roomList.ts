@@ -29,7 +29,7 @@ export function setRooms(rooms: RoomsResponse) {
             <div class="flex items-center gap-4">
               <span
                 class="text-gray-400 font-semibold text-lg tracking-wide select-none"
-                >${Object.keys(roomInfo.memberList).length}/10</span
+                >${Object.keys(roomInfo.memberList).length}/8</span
               >
             </div>
           </div>

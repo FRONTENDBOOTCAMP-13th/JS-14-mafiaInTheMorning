@@ -74,7 +74,7 @@ socket.on('message', (data: ChatMessage) => {
         case 'phaseShift':
             const phase = data.msg.phase;
 
-            const time = phase === 'day' ? 10 : 30; // 낮: 120초, 밤: 60초
+            const time = phase === 'day' ? 60 : 30; // 낮: 60초, 밤: 60초
 
             // 낮/밤 알림 업데이트
             let phaseMsg = '';

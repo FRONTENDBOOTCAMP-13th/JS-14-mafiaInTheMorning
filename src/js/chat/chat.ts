@@ -35,7 +35,7 @@ import {
     setCanAct,
     switchPhase,
 } from '../time';
-import { isMafiaKilled, mafiaKill } from './kill';
+import { citizenKill, isMafiaKilled, mafiaKill } from './kill';
 
 import {
     getLiveOrDiePlayer,
@@ -255,13 +255,7 @@ socket.on('message', async (data: ChatMessage) => {
                 console.log('찬성수', trueCnt);
                 if (trueCnt > Math.floor(livePlayer / 2)) {
                     // 죽이기
-
-                    killPlayer(target);
-                    showText({
-                        action: 'chat',
-                        nickname: '사회자',
-                        msg: ` ${target}님이 죽었습니다.`,
-                    });
+                    citizenKill(target);
                     lodArr.length = 0;
                 } else {
                     // 살리기

@@ -51,7 +51,7 @@ export function switchPhase(startPhase?: StartPhase): void {
     const hostInfo = localStorage.getItem('hostInfo');
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
-    clearInterval(timerInterval);
+    if (timerInterval) clearInterval(timerInterval);
 
     if (hostInfo !== user_id) return;
 

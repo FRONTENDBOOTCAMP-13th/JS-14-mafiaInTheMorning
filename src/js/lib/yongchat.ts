@@ -6,7 +6,15 @@ import { setRooms } from '../room/roomList';
  */
 export interface ChatMessage {
     nickName: string;
-    msg: StartGame | Chat | LiveOrDie | Vote | Kill | JoinRoom | PhaseShift;
+    msg:
+        | StartGame
+        | Chat
+        | LiveOrDie
+        | Vote
+        | Kill
+        | CitizenKill
+        | JoinRoom
+        | PhaseShift;
 }
 
 /**
@@ -132,6 +140,11 @@ export interface Kill {
     from: string;
 }
 
+export interface CitizenKill {
+    action: 'citizenkill';
+    targetId: string;
+}
+
 export interface LiveOrDie {
     action: 'liveordie';
     choice: boolean;
@@ -250,7 +263,7 @@ export function leaveRoom(): void {
  * 빈 문자열이나 공백만 있는 메시지는 전송되지 않습니다.
  */
 export function sendMsg(
-    msg: StartGame | Vote | Kill | LiveOrDie | Chat | PhaseShift,
+    msg: StartGame | Vote | Kill | CitizenKill | LiveOrDie | Chat | PhaseShift,
 ): void {
     socket.emit('message', msg);
 }

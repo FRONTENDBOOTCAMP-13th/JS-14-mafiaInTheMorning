@@ -43,7 +43,7 @@ import { dayVote } from './vote';
 // URL 파라미터 추출
 const urlParams = new URLSearchParams(window.location.search);
 const roomId = urlParams.get('roomId')!;
-const user_id = urlParams.get('user_id') as string;
+export const user_id = urlParams.get('user_id') as string;
 let hostInfo = '';
 // DOM 요소
 const roomTitle = document.querySelector('#room-title') as HTMLElement;
@@ -357,12 +357,43 @@ function addUserToVoteUI(user: RoomMember) {
         console.log(`${user_id}클릭`, div.dataset.userid);
 
         const targetId = div.dataset.userid!;
+
+        // 경찰 기능
+        if (currentPhase === 'night' && myRole === '경찰') {
+            // 밤이고 경찰이여야함
+            if (targetId === user_id) {
+                // 자기자신 조사 막기
+                alert('자기 자신은 조사할 수 없습니다.');
+                return;
+            }
+
+            const playerList = getPlayerList();
+            const targetPlayer = playerList[targetId];
+
+            if (!targetPlayer) {
+                // 게임 플레이어가 아니면 막기
+                alert('조사할 수 없는 대상입니다.');
+                return;
+            }
+            if (targetPlayer.killed === true) {
+                alert('죽은 사람 조사해서 뭐해 !');
+                return;
+            }
+            if (targetPlayer.role === '마피아') {
+                // 마피아 분별
+                alert(`${targetId}님은 마피아다.`);
+            } else {
+                alert(`${targetId}님은 마피아가 아님.`);
+            }
+
+            setCanAct(false); // 밤마다 한번씩만 행동하도록
+            return;
+        }
         // 밤에 마피아만 행동 가능
         if (currentPhase === 'night' && myRole !== '마피아') {
             alert('밤에는 행동할 수 없습니다.');
             return;
         }
-
         // myRole을 전역 변수로 선언하여 case 'start'에서 할당하고 여기서 사용
         if (currentPhase === 'night' && myRole === '마피아') {
             // 마피아 자기 자신 선택 금지

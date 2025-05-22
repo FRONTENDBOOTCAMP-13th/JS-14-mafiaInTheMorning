@@ -1,6 +1,10 @@
 import '../../style.css';
-import playerImage from '/src/assets/player.svg';
-
+import playerImage from '../../../src/assets/player9.png';
+import mafiaImage from '../../../src/assets/mafia.svg';
+import doctorImage from '../../../src/assets/doctor.svg';
+import policeImage from '../../../src/assets/police.svg';
+import citizenImage from '../../../src/assets/citizen.svg';
+import voteImage from '../../../src/assets/vote.svg';
 import {
     getRoomInfo,
     joinRoom,
@@ -207,6 +211,16 @@ socket.on('message', async (data: ChatMessage) => {
 
             setPlayerList(roomInfo.memberList);
 
+            // ⬇ 역할이 반영된 UI 다시 렌더링
+            const container = document.querySelector('#profiles');
+            if (container) {
+                container.innerHTML = '';
+                const updatedList = getPlayerList();
+                for (const playerId in updatedList) {
+                    addUserToVoteUI(updatedList[playerId]);
+                }
+            }
+
             console.log('playerList', getPlayerList());
 
             break;
@@ -265,6 +279,7 @@ socket.on('message', async (data: ChatMessage) => {
                 const container = document.querySelector('#profiles');
                 if (container) {
                     container.innerHTML = ''; // 기존 유저 UI 삭제
+                    const updatedList = getPlayerList();
                     for (const playerId in updatedList) {
                         addUserToVoteUI(updatedList[playerId]); // 유저 업데이트된 UI 함수를 작성하면 됨
                     }
@@ -306,16 +321,16 @@ function addUserToVoteUI(user: RoomMember) {
 
     if (user.nickName === user_id && myRole) {
         if (myRole === '마피아') {
-            profileImage = '/src/assets/mafia.svg';
+            profileImage = mafiaImage;
         } else if (myRole === '경찰') {
-            profileImage = '/src/assets/police.svg';
+            profileImage = policeImage;
         } else if (myRole === '의사') {
-            profileImage = '/src/assets/doctor.svg';
+            profileImage = doctorImage;
         } else if (myRole === '시민') {
-            profileImage = '/src/assets/citizen.svg';
+            profileImage = citizenImage;
         }
     } else {
-        profileImage = '/src/assets/player.svg';
+        profileImage = playerImage;
     }
 
     // const profileImage = document.createElement('img');
@@ -336,9 +351,9 @@ function addUserToVoteUI(user: RoomMember) {
         <img
             src="${profileImage}"
             alt="유저 프로필"
-            class="w-[108px] h-[108px] object-cover rounded-full"
+            class="w-[108px] h-[108px] object-cover rounded-full mt-[-14px]"
         />
-        ${user.killed ? `<img src="/src/assets/vote.svg" alt="죽음 표시" style="position: absolute; top: 0; left: 0; width: 130px; height: 130px; pointer-events: none; opacity: 0.85;" />` : ''}
+        ${user.killed ? `<img src="${voteImage}" alt="죽음 표시" style="position: absolute; top: -21px; left: 0; width: 150px; height: 150px; pointer-events: none; opacity: 0.85;" />` : ''}
         <div class="text-center text-lg mt-1 font-semibold ${
             user.killed ? 'text-red-500' : 'text-gray-200'
         }">

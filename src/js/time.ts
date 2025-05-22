@@ -2,6 +2,7 @@
 import '../style.css';
 import { showText } from './chat/chatting';
 import { resetMafiaKill } from './chat/kill';
+import { checkGameEnd } from './chat/victory';
 import {
     type PhaseShift,
     socket,
@@ -95,7 +96,7 @@ socket.on('message', (data: ChatMessage) => {
         case 'phaseShift':
             currentPhase = data.msg.phase;
 
-            time = currentPhase === 'day' ? 120 : 60; // 낮: 120초, 밤: 60초
+            time = currentPhase === 'day' ? 10 : 10; // 낮: 120초, 밤: 60초
 
             // 낮/밤 알림 업데이트
             let phaseMsg = '';
@@ -103,6 +104,8 @@ socket.on('message', (data: ChatMessage) => {
                 phaseMsg = '낮이 되었습니다☀️';
                 canAct = true;
                 resetMafiaKill();
+                const gameEnded = checkGameEnd();
+                if (gameEnded) return; // 게임 종료 조건식이 참이면 종료
             } else if (currentPhase === 'night') {
                 phaseMsg = '밤이 되었습니다🌙';
                 canAct = true;

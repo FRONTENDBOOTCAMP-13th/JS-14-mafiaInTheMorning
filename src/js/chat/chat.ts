@@ -1,10 +1,10 @@
 import '../../style.css';
-import playerImage from '../../../src/assets/player9.png';
-import mafiaImage from '../../../src/assets/mafia.svg';
-import doctorImage from '../../../src/assets/doctor.svg';
-import policeImage from '../../../src/assets/police.svg';
-import citizenImage from '../../../src/assets/citizen.svg';
-import voteImage from '../../../src/assets/vote.svg';
+// import playerImage from '../../../src/assets/player9.png';
+// import mafiaImage from '../../../src/assets/mafia.svg';
+// import doctorImage from '../../../src/assets/doctor.svg';
+// import policeImage from '../../../src/assets/police.svg';
+// import citizenImage from '../../../src/assets/citizen.svg';
+// import voteImage from '../../../src/assets/vote.svg';
 import {
     getRoomInfo,
     joinRoom,
@@ -328,20 +328,20 @@ function addUserToVoteUI(user: RoomMember) {
     // const existing = document.querySelector(`#user-${user.user_id}`);
     // if (existing) return; // 중복 방지
 
-    let profileImage = playerImage;
+    let profileImage = '/player9.png';
 
     if (user.nickName === user_id && myRole) {
         if (myRole === '마피아') {
-            profileImage = mafiaImage;
+            profileImage = '/mafia.svg';
         } else if (myRole === '경찰') {
-            profileImage = policeImage;
+            profileImage = '/police.svg';
         } else if (myRole === '의사') {
-            profileImage = doctorImage;
+            profileImage = '/doctor.svg';
         } else if (myRole === '시민') {
-            profileImage = citizenImage;
+            profileImage = '/citizen.svg';
         }
     } else {
-        profileImage = playerImage;
+        profileImage = '/player9.png';
     }
 
     // const profileImage = document.createElement('img');
@@ -364,7 +364,7 @@ function addUserToVoteUI(user: RoomMember) {
             alt="유저 프로필"
             class="w-[108px] h-[108px] object-cover rounded-full mt-[-14px]"
         />
-        ${user.killed ? `<img src="${voteImage}" alt="죽음 표시" style="position: absolute; top: -21px; left: 0; width: 150px; height: 150px; pointer-events: none; opacity: 0.85;" />` : ''}
+        ${user.killed ? `<img src="/vote.svg" alt="죽음 표시" style="position: absolute; top: -21px; left: 0; width: 150px; height: 150px; pointer-events: none; opacity: 0.85;" />` : ''}
         <div class="text-center text-lg mt-1 font-semibold ${
             user.killed ? 'text-red-500' : 'text-gray-200'
         }">

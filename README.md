@@ -42,7 +42,7 @@
 ## 🧑🏼‍🚀 팀을 소개합니다! <br>
 <hr/>
 
-** 팀명:  Maifa In The Morning ** <b></b><br/>
+### 팀명:  Maifa In The Morning  <b></b><br/>
 
 <br/>
 

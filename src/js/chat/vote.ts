@@ -131,7 +131,7 @@ export function handleVoteResult() {
             showText({
                 action: 'chat',
                 nickname: '사회자',
-                msg: `${maxVotePlayers[0].nickName}님이 총 ${maxVote}표를 받아서 사형대에 올랐습니다. 찬반 투표를 진행해 주세요`,
+                msg: `${maxVotePlayers[0].nickName}님이 총 ${maxVote}표를 받아서 사형대에 올랐습니다.`,
             });
         } else {
             // 동률일 경우 처형 없음

@@ -32,6 +32,8 @@ export interface LiveOrDiePlayer {
     user_id: string;
     nickName: string;
     vote: number;
+    killed: boolean;
+    joinTime: string;
 }
 
 /**

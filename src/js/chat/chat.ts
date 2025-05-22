@@ -233,7 +233,7 @@ socket.on('message', async (data: ChatMessage) => {
         case 'vote':
             break;
         case 'liveordie':
-            let target = getLiveOrDiePlayer().user_id;
+            let target = getLiveOrDiePlayer().nickName;
             console.log('target값', target);
             lodChoices(data.msg, lodArr);
             console.log('투표들', lodArr);
@@ -309,7 +309,7 @@ socket.on('members', (members: RoomMembers) => {
 });
 
 // 추가 유저 UI
-function addUserToVoteUI(user: RoomMember) {
+export function addUserToVoteUI(user: RoomMember) {
     console.log('user:: ', user);
     const container = document.querySelector('#profiles');
     if (!container) return;

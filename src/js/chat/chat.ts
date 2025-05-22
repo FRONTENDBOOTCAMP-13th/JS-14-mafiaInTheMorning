@@ -97,8 +97,6 @@ startButton?.addEventListener('click', async () => {
                 break;
         }
     });
-
-    startButton.disabled = true;
 });
 
 // 메시지 전송 - 버튼 클릭

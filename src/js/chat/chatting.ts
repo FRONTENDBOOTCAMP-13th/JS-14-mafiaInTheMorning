@@ -1,5 +1,4 @@
 import { type Chat, sendMsg } from '../lib/yongchat';
-import { switchPhase } from '../time';
 
 export let msgInput = document.querySelector('#msg-input') as HTMLInputElement;
 export const sendBtn = document.querySelector('#send-btn') as any;

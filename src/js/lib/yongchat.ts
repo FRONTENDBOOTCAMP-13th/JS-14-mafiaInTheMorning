@@ -33,7 +33,7 @@ export interface LiveOrDiePlayer {
     nickName: string;
     vote: number;
     killed: boolean;
-    joinTime: string;
+    // joinTime: string;
 }
 
 /**

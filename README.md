@@ -64,7 +64,7 @@
 
 🛸 [배포 링크](https://github.com/FRONTENDBOOTCAMP-13th/JS-14-mafiaInTheMorning)
 
-### 주요 화면
+<br>
 
 ## 🔧 설치 및 실행 방법
 

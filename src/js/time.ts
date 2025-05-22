@@ -53,11 +53,7 @@ export function switchPhase(startPhase?: StartPhase): void {
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
     clearInterval(timerInterval);
 
-    console.log('clearInterval 동작');
-    console.log(hostInfo, user_id);
-
     if (hostInfo !== user_id) return;
-    console.log('방장 조건 통과');
 
     if (startPhase) {
         // 서버에서 시작 phase가 지정되었을 경우 강제 설정
@@ -68,7 +64,6 @@ export function switchPhase(startPhase?: StartPhase): void {
             phase: currentPhase,
         };
         sendMsg(msg);
-        console.log('startPhase');
         // startPhase = undefined;
     } else {
         if (currentPhase === 'day') {
@@ -77,20 +72,17 @@ export function switchPhase(startPhase?: StartPhase): void {
                 phase: 'night',
             };
             sendMsg(msg);
-            console.log('currentPhaseDay');
         } else {
             const msg: PhaseShift = {
                 action: 'phaseShift',
                 phase: 'day',
             };
             sendMsg(msg);
-            console.log('currentPhaseNight');
         }
     }
 }
 
 socket.on('message', (data: ChatMessage) => {
-    console.log('socket PhaseShift on');
     switch (data.msg.action) {
         case 'phaseShift':
             currentPhase = data.msg.phase;

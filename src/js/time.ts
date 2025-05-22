@@ -199,6 +199,7 @@ export function finalVotePhase(): void {
 
         if (time <= 0) {
             clearInterval(finalVoteInterval);
+
             switchPhase(); // 최종 투표 종료 후 밤 시작
         }
     }, 1000);

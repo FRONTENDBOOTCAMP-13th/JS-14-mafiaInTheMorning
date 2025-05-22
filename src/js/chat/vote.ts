@@ -127,6 +127,7 @@ export function handleVoteResult() {
         if (maxVotePlayers.length === 1) {
             // 단일 최다 득표자만 있을 경우
             setLiveOrDiePlayer(maxVotePlayers[0]);
+            console.log('최다 득표자', maxVotePlayers[0]);
             showText({
                 action: 'chat',
                 nickname: '사회자',

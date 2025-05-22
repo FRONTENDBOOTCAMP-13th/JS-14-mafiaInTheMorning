@@ -338,9 +338,6 @@ function addUserToVoteUI(user: RoomMember) {
         profileImage = '/player9.png';
     }
 
-    // const profileImage = document.createElement('img');
-    // profileImage.dataset.userid = user.user_id;
-
     const div = document.createElement('div');
     div.dataset.userid = user.nickName;
     div.className = `

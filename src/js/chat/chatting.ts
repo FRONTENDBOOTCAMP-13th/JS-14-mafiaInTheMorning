@@ -11,9 +11,9 @@ export function chat(id: string) {
     const msg: Chat = {
         action: 'chat',
         nickname: id,
-        msg: msgInput.value,
+        msg: msgInput.value.trim(),
     };
-    sendMsg(msg);
+    if (msg.msg) sendMsg(msg);
     msgInput.value = ''; // 입력창 비우기
 }
 

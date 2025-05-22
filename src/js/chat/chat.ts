@@ -111,7 +111,6 @@ sendBtn?.addEventListener('click', () => {
     } else if (currentPhase === 'day') {
         chat(user_id);
     }
-
     msgInput.value = '';
     msgInput.focus();
 });
@@ -119,18 +118,14 @@ sendBtn?.addEventListener('click', () => {
 // 메시지 전송 - 엔터 입력
 msgInput.addEventListener('keyup', (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-        // sendMsg(msgInput.value);
         const myPlayer = getPlayerList()[user_id];
         if (myPlayer.killed) {
             alert('당신은 사망하셨습니다.');
             return;
         }
-        console.log('챗 보내기', currentPhase, myRole);
         if (currentPhase === 'night' && myRole === '마피아') {
-            console.log('night chat');
             chat(user_id);
         } else if (currentPhase === 'day') {
-            console.log('day chat');
             chat(user_id);
         }
         msgInput.value = '';

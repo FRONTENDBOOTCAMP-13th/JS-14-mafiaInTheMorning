@@ -3,19 +3,14 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     build: {
+        target: 'es2022',
         rollupOptions: {
             input: {
                 index: 'index.html', // 기본 index.html
                 serverLogin: 'src/pages/server-page.html',
                 room: 'src/pages/chatlist-page.html',
                 gamePage: 'src/pages/chat.html',
-                // vote: 'src/pages/',
                 gameOver: 'src/pages/result-page.html',
-
-                // list: 'src/pages/todo/list.html', // 추가 HTML 파일
-                // regist: 'src/pages/todo/regist.html', // 추가 HTML 파일
-                // info: 'src/pages/todo/info.html', // 추가 HTML 파일
-                // 필요한 다른 HTML 파일을 여기에 추가
             },
         },
     },

@@ -9,13 +9,15 @@ import {
     socket,
     sendMsg,
     type ChatMessage,
+    getRoomInfo,
 } from './lib/yongchat';
 
 const urlParams = new URLSearchParams(window.location.search);
-const user_id = urlParams.get('user_id') as string;
+const roomId = urlParams.get('roomId')!;
+const user_id = urlParams.get('user_id')!;
 export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
-export let time: number; // 남은 시간 (초)
-export let timerInterval: number;
+// export let time: number; // 남은 시간 (초)
+// export let timerInterval: number;
 
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
@@ -47,57 +49,42 @@ const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
 type StartPhase = 'day' | 'night';
 
 // 낮/밤 전환 함수
-export function switchPhase(startPhase?: StartPhase): void {
-    const hostInfo = localStorage.getItem('hostInfo');
+export async function switchPhase(phase: StartPhase) {
+    const hostName = (await getRoomInfo(roomId)).hostName;
     // 이전 타이머 중단
     // setInterval()함수는 clearInterval() 함수를 호출하여 제거
-    if (timerInterval) clearInterval(timerInterval);
+    // if (timerInterval) clearInterval(timerInterval);
 
-    if (hostInfo !== user_id) return;
+    console.log(hostName, user_id);
+    if (hostName !== user_id) return;
 
-    if (startPhase) {
-        // 서버에서 시작 phase가 지정되었을 경우 강제 설정
-        currentPhase = startPhase;
+    // 서버에서 시작 phase가 지정되었을 경우 강제 설정
+    currentPhase = phase;
 
-        const msg: PhaseShift = {
-            action: 'phaseShift',
-            phase: currentPhase,
-        };
-        sendMsg(msg);
-        // startPhase = undefined;
-    } else {
-        if (currentPhase === 'day') {
-            const msg: PhaseShift = {
-                action: 'phaseShift',
-                phase: 'night',
-            };
-            sendMsg(msg);
-        } else {
-            const msg: PhaseShift = {
-                action: 'phaseShift',
-                phase: 'day',
-            };
-            sendMsg(msg);
-        }
-    }
+    const msg: PhaseShift = {
+        action: 'phaseShift',
+        phase,
+    };
+    sendMsg(msg);
+    // startPhase = undefined;
 }
 
 socket.on('message', (data: ChatMessage) => {
     switch (data.msg.action) {
         case 'phaseShift':
-            currentPhase = data.msg.phase;
+            const phase = data.msg.phase;
 
-            time = currentPhase === 'day' ? 10 : 30; // 낮: 120초, 밤: 60초
+            const time = phase === 'day' ? 10 : 30; // 낮: 120초, 밤: 60초
 
             // 낮/밤 알림 업데이트
             let phaseMsg = '';
-            if (currentPhase === 'day') {
+            if (phase === 'day') {
                 phaseMsg = '낮이 되었습니다☀️';
                 canAct = true;
                 resetMafiaKill();
                 const gameEnded = checkGameEnd();
                 if (gameEnded) return; // 게임 종료 조건식이 참이면 종료
-            } else if (currentPhase === 'night') {
+            } else if (phase === 'night') {
                 phaseMsg = '밤이 되었습니다🌙';
                 canAct = true;
             }
@@ -108,17 +95,17 @@ socket.on('message', (data: ChatMessage) => {
                 msg: phaseMsg,
             });
 
-            startTimer(); // 새로운 타이머 시작
+            startTimer(phase, time); // 새로운 타이머 시작
             break;
     }
 });
 
 // 타이머 실행 함수
-export function startTimer(): void {
+export function startTimer(phase: Phase, time: number): void {
     // 1초마다 실행 , setInterval 사용
     //  setInterval : 지정한 시간 간격마다 함수를 계속 반복 실행하는 JavaScript 내장 함수
     // setInterval(callback함수, 반복 간격(ms));
-    timerInterval = setInterval(() => {
+    let timerInterval = setInterval(() => {
         time--; // 시간 감소
         timeRemaining.textContent = time.toString(); //타이머 숫자를 HTML 화면에 실시간으로 업데이트
 
@@ -126,10 +113,10 @@ export function startTimer(): void {
             clearInterval(timerInterval);
 
             // 낮이 끝나면 지목 - 최후 변론 - 찬반 투표 순으로 진행
-            if (currentPhase === 'day') {
+            if (phase === 'day') {
                 startVoteSequence(); // 낮일 경우 투표 루트로 이동
             } else {
-                switchPhase(); // 밤일 경우 바로 낮으로 전환
+                switchPhase('day'); // 밤일 경우 바로 낮으로 전환
             }
         }
     }, 1000); // 1초마다
@@ -144,7 +131,7 @@ export function startVoteSequence(): void {
         msg: '지목 투표가 시작되었습니다. (15초)',
     });
     setVotePhase(true);
-    time = 15;
+    let time = 15;
     timeRemaining.textContent = time.toString();
 
     const voteInterval = setInterval(() => {
@@ -168,7 +155,7 @@ export function startDefensePhase(): void {
         nickname: '사회자',
         msg: '최후의 변론을 시작하세요. (10초)',
     });
-    time = 10;
+    let time = 10;
     timeRemaining.textContent = time.toString();
 
     const defenseInterval = setInterval(() => {
@@ -190,7 +177,7 @@ export function finalVotePhase(): void {
         nickname: '사회자',
         msg: '최종 찬반 투표가 시작되었습니다. (15초)',
     });
-    time = 15;
+    let time = 15;
     timeRemaining.textContent = time.toString();
 
     const finalVoteInterval = setInterval(() => {
@@ -200,7 +187,7 @@ export function finalVotePhase(): void {
         if (time <= 0) {
             clearInterval(finalVoteInterval);
 
-            switchPhase(); // 최종 투표 종료 후 밤 시작
+            switchPhase('night'); // 최종 투표 종료 후 밤 시작
         }
     }, 1000);
 }

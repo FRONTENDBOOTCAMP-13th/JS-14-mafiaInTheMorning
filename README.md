@@ -1,19 +1,18 @@
-# ✨ Mafia In The Morning의 프로젝트를 소개합니다! ✨
-
 <div align="center">
-
-## 💫 프로젝트 명
+  
+# ✨ Mafia In The Morning ✨
 
 **웹 기반의 MAFIA 게임 구현**
+
 ![image](https://github.com/user-attachments/assets/cab40f21-d40d-444e-a3d1-19af663b2a0a)
 
 
 
 </div>
 
-## 🚀 프로젝트 소개
-
-웹 기반으로 실행되는 마피아 게임을 구현합니다.
+## 🚀 프로젝트 소개 
+- 프로젝트 명  < Mafia In The Morning> <br>
+- 웹 기반으로 실행되는 마피아 게임을 구현합니다.
 
 ## 🪐 프로젝트 기간
 

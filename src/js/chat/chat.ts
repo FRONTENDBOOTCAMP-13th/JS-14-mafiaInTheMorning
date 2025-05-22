@@ -244,7 +244,7 @@ socket.on('message', async (data: ChatMessage) => {
         case 'vote':
             break;
         case 'liveordie':
-            let target = getLiveOrDiePlayer().user_id;
+            let target = getLiveOrDiePlayer().nickName;
             console.log('target값', target);
             lodChoices(data.msg, lodArr);
             console.log('투표들', lodArr);

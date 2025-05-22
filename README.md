@@ -36,11 +36,14 @@
 <br />
 
 
+
 <br>
 
 ## 🧑🏼‍🚀 팀을 소개합니다! <br>
 <hr/>
-팀명: Maifa In The Morning <b></b><br/>
+
+>팀명: Maifa In The Morning <b></b><br/>
+
 <br/>
 
 |                 ![image](https://github.com/user-attachments/assets/1eaf47c3-aac1-4dca-8f40-7423d2f0adc6  )              |                  ![image](https://github.com/user-attachments/assets/c3dcacf1-b939-4be9-9003-f6aca977cf8e)       |                ![image](https://github.com/user-attachments/assets/c68ff4e1-acc6-489d-96f3-4e3a5ce317a6)|                ![image](https://github.com/user-attachments/assets/e2824baf-6142-4bca-bb7e-b9d1aa5fe024)         |
@@ -51,6 +54,11 @@
 
 <br /> 
 <br />
+
+--------
+
+<br>
+
 
 ## 🎥 프로젝트 미리보기
 
@@ -77,6 +85,11 @@ npm install
 ```bash
 npm run dev
 ```
+<br>
+
+--------
+
+<br>
 
 ## 💡 주요 기능
 
@@ -84,7 +97,8 @@ npm run dev
  -  **직업 능력** : 마피아, 경찰, 시민 3가지 직업 각각의 능력 보유<br>
  -  **투표기능** : 1차 지목 투표, 2차 찬반 투표<br>
 
-## 화면별 기능 
+## 🖥️ 화면별 기능 
+
 
 
 

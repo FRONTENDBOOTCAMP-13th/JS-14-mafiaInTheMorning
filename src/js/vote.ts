@@ -1,5 +1,8 @@
 // import { openVoteModal } from './modal';
 
+import { showText } from './chat/chatting';
+import { getPlayerList, initVote, setLiveOrDiePlayer } from './lib/store';
+
 // 나의 유저 ID (현재 로그인된 유저가 user1라고 가정함) - 자기 가진을 투표할 수 없도록
 const USER_ID = 'user1';
 
@@ -50,6 +53,48 @@ profileElements.forEach(profile => {
         // console.log('투표 대상:', selectedUserId);
     });
 });
+
+// 최다 득표자 처리 함수
+export function handleVoteResult() {
+    const playerList = getPlayerList(); // 플레이어 리스트를 가져옴
+    const playerCount = Object.keys(playerList).length; // 살아있는 플레이어의 수를 체크
+
+    // 최다 득표수 계산
+    const maxVote = Math.max(
+        ...Object.values(playerList).map(player => player.vote || 0),
+    );
+
+    if (maxVote >= playerCount / 2) {
+        const maxVotePlayers = Object.values(playerList).filter(
+            player => (player.vote || 0) === maxVote,
+        );
+
+        if (maxVotePlayers.length === 1) {
+            // 단일 최다 득표자만 있을 경우
+            setLiveOrDiePlayer(maxVotePlayers[0]);
+            showText({
+                action: 'chat',
+                nickname: '사회자',
+                msg: `${maxVotePlayers[0].nickName}님이 총 ${maxVote}표를 받아서 사형대에 올랐습니다. 찬반 투표를 진행해 주세요`,
+            });
+        } else {
+            // 동률일 경우 처형 없음
+            showText({
+                action: 'chat',
+                nickname: '사회자',
+                msg: `투표 결과 동률이 발생하여 처형 대상자가 없습니다.`,
+            });
+        }
+    } else {
+        showText({
+            action: 'chat',
+            nickname: '사회자',
+            msg: `과반수 득표자가 없어 처형 대상자가 없습니다.`,
+        });
+    }
+
+    initVote(); // 다음 투표를 위해 초기화
+}
 
 // import { socket } from './socket/socket';
 // import type { JoinRoomParams } from './room/enterRoom';

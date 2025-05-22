@@ -13,6 +13,9 @@ import { handleVoteResult } from './vote';
 
 const urlParams = new URLSearchParams(window.location.search);
 const user_id = urlParams.get('user_id') as string;
+export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
+export let time: number; // 남은 시간 (초)
+export let timerInterval: number;
 
 // 낮/밤을 타입을 정의
 export type Phase = 'day' | 'night';
@@ -39,10 +42,6 @@ export function getVotePhase(): boolean {
 
 // export function  getMafia
 const timeRemaining = document.getElementById('timer') as HTMLSpanElement;
-
-export let currentPhase: Phase = 'day'; // 현재 시간 상태: 낮 or 밤
-export let time: number; // 남은 시간 (초)
-export let timerInterval: number;
 
 // phase를 인자로 받아서 시작을 강제할 수 있게 수정
 type StartPhase = 'day' | 'night';
@@ -96,7 +95,7 @@ socket.on('message', (data: ChatMessage) => {
         case 'phaseShift':
             currentPhase = data.msg.phase;
 
-            time = currentPhase === 'day' ? 10 : 10; // 낮: 120초, 밤: 60초
+            time = currentPhase === 'day' ? 10 : 30; // 낮: 120초, 밤: 60초
 
             // 낮/밤 알림 업데이트
             let phaseMsg = '';

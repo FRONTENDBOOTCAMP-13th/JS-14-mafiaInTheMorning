@@ -1,4 +1,6 @@
 import '../../style.css';
+import playerImage from '/src/assets/player.svg';
+
 import {
     getRoomInfo,
     joinRoom,
@@ -305,7 +307,7 @@ function addUserToVoteUI(user: RoomMember) {
     // const existing = document.querySelector(`#user-${user.user_id}`);
     // if (existing) return; // 중복 방지
 
-    let profileImage = '/src/assets/player.svg';
+    let profileImage = playerImage;
 
     if (user.nickName === user_id && myRole) {
         if (myRole === '마피아') {

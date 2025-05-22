@@ -100,8 +100,80 @@ npm run dev
 ## 🖥️ 화면별 기능 
 
 
+  
+### 시작 페이지<br><br>
+
+<p align="center">
+  <img width="48%" src="https://github.com/user-attachments/assets/f461f4a5-2afe-4415-8ac1-912d9743ec28" />
+  <img width="48%" alt="image" src="https://github.com/user-attachments/assets/fbe2182f-62f4-493c-8bc3-170c41781a10" />
+</p>
 
 
+- 닉네임 입력 후 입장 <br>
+
+<br>
+ 
+## 서버 입장 페이지 <br>
+
+<div align="center">
+  
+<img width="863" alt="image" src="https://github.com/user-attachments/assets/3d221777-fd44-4143-a43a-d06c7148a3e2" />
+  <br>
+
+
+
+</div>
+
+- 서버 선택 <br>
+
+<br>
+ 
+## 게임방 리스트 페이지 <br>
+
+<p align="center">
+  <img width="48%" src="https://github.com/user-attachments/assets/5c9aa5b2-3aee-4258-a216-fb0f06192734" />
+  <img width="49%" alt="image" src="https://github.com/user-attachments/assets/201c4e4b-792b-484e-a888-bbd5d158fa8d" />
+
+</p>
+
+- 방 생성 버튼 클릭 시 방 생성 모달 창
+- 현재 방 입장 인원 수 표시 <br>
+
+ <br>
+ 
+## 게임방 페이지 <br>
+<div align="center">
+<img width="48%" alt="image" src="https://github.com/user-attachments/assets/fc2b164e-7228-45bc-96b6-b7624148e59a" />
+<img width="48%" alt="image" src="https://github.com/user-attachments/assets/8bb9f868-ffaf-4a61-9f02-541e4a2ae35c" />
+
+</div>
+
+- 게임 시작 버튼은 방장에게만 표시
+- 게임 시작 버튼 클릭 후 타이머와 직업 표시
+
+
+---------
+
+## ⚖️ 게임 룰
+- 밤 -> 낮 -> 지목 투표 -> 최후의 반론 -> 찬반 투표 ->
+    - 밤 : 각 직업 능력 사용 가능 / 마피아만 채팅 가능
+    - 낮 : 채팅
+    - 지목 투표 : 자기 자신 포함 산 사람만 투표 가능 , 과반수 이상 표 받아야 지목
+    - 최후의 반론
+    - 찬반 투표 : 찬성/반대 투표 , 과반수 이상 찬성 해야 사형
+  
+- 직업 능력
+  - 마피아 : 밤에 시민 한명 kill 가능
+  - 경찰 : 밤에 마피아 여부 조사 가능
+
+- 승리 로직
+  1. 마피아가 없으면 시민 승
+  2. 시민2=마피아2 - 끝 → 마피아 승
+   
+
+
+<br>
+  
 
 ## 📂 폴더 구조
 

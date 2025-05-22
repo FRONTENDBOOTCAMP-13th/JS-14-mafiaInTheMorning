@@ -3,13 +3,13 @@ import '../style.css';
 import { showText } from './chat/chatting';
 import { resetMafiaKill } from './chat/kill';
 import { checkGameEnd } from './chat/victory';
+import { handleVoteResult } from './chat/vote';
 import {
     type PhaseShift,
     socket,
     sendMsg,
     type ChatMessage,
 } from './lib/yongchat';
-import { handleVoteResult } from './vote';
 
 const urlParams = new URLSearchParams(window.location.search);
 const user_id = urlParams.get('user_id') as string;

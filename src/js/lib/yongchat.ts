@@ -143,7 +143,7 @@ export interface PhaseShift {
 }
 
 // npm i @types/socket.io-client 필요
-export const socket = io('ws://fesp-api.koyeb.app/febc13-chat/team01');
+export const socket = io('wss://fesp-api.koyeb.app/febc13-chat/team01');
 
 /**
  * 소켓 연결 이벤트 리스너

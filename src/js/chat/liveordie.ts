@@ -50,36 +50,6 @@ export function lodResult(arr: Array<boolean>, cnt: number) {
 socket.on('message', (data: LiveOrDie) => {
     switch (data.action) {
         case 'liveordie':
-            console.log(data.choice);
-            let target = getLiveOrDiePlayer().user_id;
-            lodChoices(data.msg, lodArr);
-            console.log('투표들', lodArr);
-            console.log('투표수', lodArr.length);
-            let livePlayer = getLivePlayerCount();
-            if (livePlayer == lodArr.length) {
-                trueCnt = lodResult(lodArr, trueCnt);
-                console.log('찬성수', trueCnt);
-                if (trueCnt > Math.floor(livePlayer / 2)) {
-                    // 죽이기
-
-                    killPlayer(target);
-                    showText({
-                        action: 'chat',
-                        nickname: '사회자',
-                        msg: ` ${target}님이 죽었습니다.`,
-                    });
-                    lodArr.length = 0;
-                } else {
-                    // 살리기
-                    showText({
-                        action: 'chat',
-                        nickname: '사회자',
-                        msg: ` ${target}님이 살았습니다.`,
-                    });
-
-                    lodArr.length = 0;
-                }
-            }
             break;
     }
 });

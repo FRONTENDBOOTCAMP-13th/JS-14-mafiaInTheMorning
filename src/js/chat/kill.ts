@@ -16,6 +16,12 @@ export function mafiaKill(user_id: string, targetId: string) {
     });
 }
 
+export function citizenKill(targetId: string) {
+    sendMsg({
+        action: 'citizenkill',
+        targetId: targetId,
+    });
+}
 // // WebSocket 메시지 수신 처리
 // socket.on('message', (data: Kill) => {
 //     switch (data.action) {
@@ -30,7 +36,7 @@ export function mafiaKill(user_id: string, targetId: string) {
 socket.on('message', (packet: ChatMessage) => {
     if (packet.msg.action === 'kill') {
         console.log(packet);
-        const data = packet.msg as Kill;
+        const data = packet.msg;
         // 유저에게 알림
         isMafiaKilled = true;
         killPlayer(data.targetId);
@@ -39,10 +45,19 @@ socket.on('message', (packet: ChatMessage) => {
             nickname: '사회자',
             msg: `마피아가 뒷통수를 내리쳐 ${data.targetId} 유저를 죽였습니다.`,
         });
+    } else if (packet.msg.action === 'citizenkill') {
+        console.log(packet);
+        const data = packet.msg;
+        // 유저에게 알림
+        killPlayer(data.targetId);
+        showText({
+            action: 'chat',
+            nickname: '사회자',
+            msg: `투표에 의해 ${data.targetId} 유저가 죽였습니다.`,
+        });
     }
 });
 
-// 밤이 끝날 때 초기화 함수 호출
 export function resetMafiaKill() {
     isMafiaKilled = false;
 }

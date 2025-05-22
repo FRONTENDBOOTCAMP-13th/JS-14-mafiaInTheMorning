@@ -1,5 +1,5 @@
 import { killPlayer } from '../lib/store';
-import { sendMsg, socket, type ChatMessage, type Kill } from '../lib/yongchat';
+import { sendMsg, socket, type ChatMessage } from '../lib/yongchat';
 import { showText } from './chatting';
 export let isMafiaKilled = false;
 

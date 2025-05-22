@@ -16,7 +16,7 @@ import {
     type RoomMembers,
 } from '../lib/yongchat';
 import { getMyRole, startGame, hostStartBtn } from './start';
-import { showText, msgInput, sendBtn, chat, chatArea } from './chatting';
+import { showText, msgInput, sendBtn, chat } from './chatting';
 import {
     lodHide,
     lodShow,
@@ -35,13 +35,12 @@ import {
     setCanAct,
     switchPhase,
 } from '../time';
-import { citizenKill, isMafiaKilled, mafiaKill } from './kill';
+import { citizenKill, mafiaKill } from './kill';
 
 import {
     getLiveOrDiePlayer,
     getLivePlayerCount,
     getPlayerList,
-    killPlayer,
     setPlayerList,
 } from '../lib/store';
 
@@ -246,6 +245,7 @@ socket.on('message', async (data: ChatMessage) => {
             break;
         case 'liveordie':
             let target = getLiveOrDiePlayer().user_id;
+            console.log('target값', target);
             lodChoices(data.msg, lodArr);
             console.log('투표들', lodArr);
             console.log('투표수', lodArr.length);

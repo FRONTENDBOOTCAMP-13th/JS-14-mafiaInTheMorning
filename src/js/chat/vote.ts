@@ -9,14 +9,8 @@
  * - 동률일 경우 처형하지 않음
  */
 
-import {
-    getPlayerList,
-    initVote,
-    setLiveOrDiePlayer,
-    setPlayerList,
-} from '../lib/store';
+import { getPlayerList, setPlayerList } from '../lib/store';
 import { sendMsg, socket, type ChatMessage } from '../lib/yongchat';
-import { showText } from './chatting';
 
 /**
  * 플레이어가 다른 플레이어에게 투표하는 함수

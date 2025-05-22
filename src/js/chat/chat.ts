@@ -1,10 +1,4 @@
 import '../../style.css';
-// import playerImage from '../../../src/assets/player9.png';
-// import mafiaImage from '../../../src/assets/mafia.svg';
-// import doctorImage from '../../../src/assets/doctor.svg';
-// import policeImage from '../../../src/assets/police.svg';
-// import citizenImage from '../../../src/assets/citizen.svg';
-// import voteImage from '../../../src/assets/vote.svg';
 import {
     getRoomInfo,
     joinRoom,
@@ -343,9 +337,6 @@ function addUserToVoteUI(user: RoomMember) {
     } else {
         profileImage = '/player9.png';
     }
-
-    // const profileImage = document.createElement('img');
-    // profileImage.dataset.userid = user.user_id;
 
     const div = document.createElement('div');
     div.dataset.userid = user.nickName;

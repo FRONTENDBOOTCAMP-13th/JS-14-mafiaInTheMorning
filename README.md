@@ -62,7 +62,7 @@
 
 ## 🎥 프로젝트 미리보기
 
-🛸 [배포 링크](https://github.com/FRONTENDBOOTCAMP-13th/JS-14-mafiaInTheMorning)
+🛸 [배포 링크](https://mafia-in-the-morning.netlify.app/)
 
 <br>
 
